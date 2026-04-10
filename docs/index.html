@@ -363,10 +363,7 @@ marked.setOptions({ gfm: true, breaks: true });
 
 // ── File registry ──
 const FILES = [
-  { key: 'j1', url: '判決書全文-1.md',       label: '判決書（一）' },
-  { key: 'j2', url: '判決書全文-2.md',       label: '判決書（二）' },
-  { key: 'j3', url: '判決書全文-3.md',       label: '判決書（三）' },
-  { key: 'j4', url: '判決書全文-4.md',       label: '判決書（四）' },
+  { key: 'jf', url: '判決書全文.md',          label: '判決書全文' },
   { key: 'an', url: '京華城案關鍵時間軸與爭點分析.md', label: '案情分析' },
   { key: 'vd', url: '柯文哲有罪理由分析.md',  label: '有罪理由' },
 ];
@@ -423,8 +420,8 @@ async function loadFullJudgment() {
   const body = document.getElementById('judgment-body');
   body.innerHTML = '<div class="loading">載入中（約 30 萬字，請稍候）</div>';
   try {
-    const parts = await Promise.all([1,2,3,4].map(n => fetchMd('判決書全文-' + n + '.md')));
-    body.innerHTML = marked.parse(parts.join('\n\n'));
+    const md = await fetchMd('判決書全文.md');
+    body.innerHTML = marked.parse(md);
   } catch (e) {
     body.innerHTML = '<p style="color:red">載入失敗：' + e.message + '</p>';
   }
@@ -563,7 +560,7 @@ function goToResult(url, qEncoded) {
   const q = decodeURIComponent(qEncoded);
 
   // Map url to tab
-  if (url.includes('判決書全文-')) {
+  if (url.includes('判決書全文')) {
     switchTab('judgment');
     if (!judgmentLoaded) {
       judgmentLoaded = true;
