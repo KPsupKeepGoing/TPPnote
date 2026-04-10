@@ -375,6 +375,64 @@
       #toc-panel { width: calc(100vw - 24px); }
     }
 
+    /* ── Transcript list ── */
+    .transcript-list { margin-bottom: 0; }
+    .transcript-item {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .1s;
+      border-radius: 4px;
+    }
+    .transcript-item:hover { background: var(--tag-bg); }
+    .transcript-item.active { background: var(--tag-bg); border-left: 3px solid var(--accent); padding-left: 13px; }
+    .transcript-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      min-width: 24px;
+    }
+    .transcript-info { flex: 1; min-width: 0; }
+    .transcript-title {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .transcript-date { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    #transcript-viewer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 40px 48px;
+      margin-top: 20px;
+    }
+    #transcript-list-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 20px;
+    }
+    #transcript-list-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 8px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4px;
+    }
+    @media (max-width: 600px) {
+      #transcript-viewer { padding: 20px 16px; }
+    }
+
     /* ── Part nav ── */
     .part-nav { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
     .part-nav button {
@@ -402,6 +460,7 @@
   <button class="tab-btn" data-target="verdict">有罪理由</button>
   <button class="tab-btn" data-target="acquittal">證據不足</button>
   <button class="tab-btn" data-target="defense">辯方爭點</button>
+  <button class="tab-btn" data-target="transcripts">法庭逐字稿</button>
   <button id="search-btn" onclick="openSearch()">🔍 搜尋</button>
 </nav>
 
@@ -452,6 +511,11 @@
         <h3>法院不採信辯方爭點</h3>
         <p>八大辯護主張逐一遭駁：密會說、余雪鴻說、先例說、裁量說</p>
       </div>
+      <div class="card" onclick="switchTab('transcripts')">
+        <div class="card-label">法庭直播</div>
+        <h3>言詞辯論逐字稿</h3>
+        <p>15場法庭辯論完整逐字稿，含檢察官論告、各被告辯護及宣判</p>
+      </div>
     </div>
   </div>
 
@@ -480,6 +544,17 @@
     <div id="defense-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
+  <!-- ══ TRANSCRIPTS ══ -->
+  <div id="transcripts" class="md-panel">
+    <div id="transcript-list-wrap">
+      <div id="transcript-list-title">選擇場次</div>
+      <div class="transcript-list" id="transcript-list"></div>
+    </div>
+    <div id="transcript-viewer" class="md-body" style="display:none">
+      <div class="loading">載入中</div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ══ TOC ══ -->
@@ -495,6 +570,25 @@
 <script>
 marked.setOptions({ gfm: true, breaks: true });
 
+// ── Transcript registry ──
+const TRANSCRIPTS = [
+  { n:  1, url: '逐字稿1.md',  date: '114/12/15 上午', title: '檢察官｜圖利罪論告' },
+  { n:  2, url: '逐字稿2.md',  date: '114/12/15 下午', title: '檢察官｜圖利罪、收賄罪論告' },
+  { n:  3, url: '逐字稿3.md',  date: '114/12/16 上午', title: '檢察官｜收賄罪論告' },
+  { n:  4, url: '逐字稿4.md',  date: '114/12/17 上午', title: '辯護｜柯文哲辯護人' },
+  { n:  5, url: '逐字稿5.md',  date: '114/12/17 下午', title: '辯護｜沈慶京本人及辯護人' },
+  { n:  6, url: '逐字稿6.md',  date: '114/12/18 上午', title: '辯護｜沈慶京辯護（續）' },
+  { n:  7, url: '逐字稿7.md',  date: '114/12/18 下午', title: '辯護｜張志澄、吳順民' },
+  { n:  8, url: '逐字稿8.md',  date: '114/12/19 上午', title: '補充論告 + 應曉薇、彭振聲辯護' },
+  { n:  9, url: '逐字稿9.md',  date: '114/12/19 下午', title: '辯護｜黃景茂' },
+  { n: 10, url: '逐字稿10.md', date: '114/12/22 上午', title: '檢察官｜政治獻金木可案 + 李文宗答辯' },
+  { n: 11, url: '逐字稿11.md', date: '114/12/22 下午', title: '辯護｜李文宗、李文娟辯護人' },
+  { n: 12, url: '逐字稿12.md', date: '114/12/23 下午', title: '辯護｜柯文哲及辯護人（續）' },
+  { n: 13, url: '逐字稿13.md', date: '114/12/24 上午', title: '辯護｜應曉薇及辯護人' },
+  { n: 14, url: '逐字稿14.md', date: '114/12/24 下午', title: '綜合辯論｜應曉薇、柯文哲、沈慶京等' },
+  { n: 15, url: '逐字稿15.md', date: '115/03/26 下午', title: '宣判逐字稿' },
+];
+
 // ── File registry ──
 const FILES = [
   { key: 'jf', url: '判決書全文.md',             label: '判決書全文' },
@@ -502,6 +596,7 @@ const FILES = [
   { key: 'vd', url: '柯文哲有罪理由分析.md',     label: '有罪理由' },
   { key: 'aq', url: '證據不足與無罪分析.md',     label: '證據不足' },
   { key: 'df', url: '法院不採信辯方爭點.md',     label: '辯方爭點' },
+  ...TRANSCRIPTS.map(t => ({ key: 't' + t.n, url: t.url, label: t.title })),
 ];
 
 const cache = {};   // url → raw markdown text
@@ -532,6 +627,8 @@ let analysisLoaded = false;
 let verdictLoaded = false;
 let acquittalLoaded = false;
 let defenseLoaded = false;
+let transcriptsInited = false;
+let currentTranscript = null;
 
 function switchTab(name) {
   document.getElementById(currentTab).style.display = 'none';
@@ -560,6 +657,46 @@ function switchTab(name) {
     defenseLoaded = true;
     renderInto('defense-body', '法院不採信辯方爭點.md');
   }
+  if (name === 'transcripts' && !transcriptsInited) {
+    transcriptsInited = true;
+    buildTranscriptList();
+  }
+}
+
+function buildTranscriptList() {
+  const list = document.getElementById('transcript-list');
+  TRANSCRIPTS.forEach(t => {
+    const item = document.createElement('div');
+    item.className = 'transcript-item';
+    item.dataset.url = t.url;
+    item.innerHTML = `
+      <span class="transcript-num">${t.n}</span>
+      <div class="transcript-info">
+        <div class="transcript-title">${t.title}</div>
+        <div class="transcript-date">${t.date}</div>
+      </div>`;
+    item.onclick = () => loadTranscript(t.url, item);
+    list.appendChild(item);
+  });
+}
+
+async function loadTranscript(url, itemEl) {
+  // highlight selected
+  document.querySelectorAll('.transcript-item').forEach(i => i.classList.remove('active'));
+  itemEl.classList.add('active');
+
+  const viewer = document.getElementById('transcript-viewer');
+  viewer.style.display = 'block';
+  viewer.innerHTML = '<div class="loading">載入中</div>';
+  viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  try {
+    const md = await fetchMd(url);
+    viewer.innerHTML = marked.parse(md);
+  } catch (e) {
+    viewer.innerHTML = '<p style="color:red">載入失敗：' + e.message + '</p>';
+  }
+  currentTranscript = url;
 }
 
 async function loadFullJudgment() {
@@ -726,6 +863,18 @@ function goToResult(url, qEncoded) {
     switchTab('defense');
     if (!defenseLoaded) { defenseLoaded = true; renderInto('defense-body', url).then(() => highlightInBody('defense-body', q)); }
     else highlightInBody('defense-body', q);
+  } else if (url.includes('逐字稿')) {
+    switchTab('transcripts');
+    if (!transcriptsInited) { transcriptsInited = true; buildTranscriptList(); }
+    // find and click the matching transcript item
+    setTimeout(() => {
+      const items = document.querySelectorAll('.transcript-item');
+      items.forEach(item => {
+        if (item.dataset.url === url) {
+          loadTranscript(url, item).then(() => highlightInBody('transcript-viewer', q));
+        }
+      });
+    }, 100);
   } else {
     switchTab('verdict');
     if (!verdictLoaded) { verdictLoaded = true; renderInto('verdict-body', url).then(() => highlightInBody('verdict-body', q)); }
@@ -770,7 +919,11 @@ function buildToc() {
   // Find active content panel
   const panelId = currentTab === 'home' ? null :
     currentTab === 'judgment' ? 'judgment-body' :
-    currentTab === 'analysis' ? 'analysis-body' : 'verdict-body';
+    currentTab === 'analysis' ? 'analysis-body' :
+    currentTab === 'verdict' ? 'verdict-body' :
+    currentTab === 'acquittal' ? 'acquittal-body' :
+    currentTab === 'defense' ? 'defense-body' :
+    currentTab === 'transcripts' ? 'transcript-viewer' : null;
 
   if (!panelId) { list.innerHTML = '<div style="padding:12px 16px;color:#888;font-size:13px">請先開啟文件</div>'; return; }
 
