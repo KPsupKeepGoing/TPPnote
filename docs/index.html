@@ -342,12 +342,6 @@
 
   <!-- ══ JUDGMENT ══ -->
   <div id="judgment" class="md-panel">
-    <div class="part-nav">
-      <button class="active" onclick="loadPart(1)">第一部分</button>
-      <button onclick="loadPart(2)">第二部分</button>
-      <button onclick="loadPart(3)">第三部分</button>
-      <button onclick="loadPart(4)">第四部分</button>
-    </div>
     <div id="judgment-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
@@ -400,8 +394,7 @@ async function renderInto(containerId, url) {
 
 // ── Tab switching ──
 let currentTab = 'home';
-let currentPart = 1;
-const judgmentLoaded = {};
+let judgmentLoaded = false;
 let analysisLoaded = false;
 let verdictLoaded = false;
 
@@ -412,7 +405,10 @@ function switchTab(name) {
   document.querySelectorAll('.tab-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.target === name));
 
-  if (name === 'judgment' && !judgmentLoaded[currentPart]) loadPart(currentPart);
+  if (name === 'judgment' && !judgmentLoaded) {
+    judgmentLoaded = true;
+    loadFullJudgment();
+  }
   if (name === 'analysis' && !analysisLoaded) {
     analysisLoaded = true;
     renderInto('analysis-body', '京華城案關鍵時間軸與爭點分析.md');
@@ -423,14 +419,14 @@ function switchTab(name) {
   }
 }
 
-function loadPart(n) {
-  currentPart = n;
-  document.querySelectorAll('.part-nav button').forEach((b, i) =>
-    b.classList.toggle('active', i + 1 === n));
-  if (!judgmentLoaded[n]) {
-    judgmentLoaded[n] = true;
-    document.getElementById('judgment-body').innerHTML = '<div class="loading">載入中</div>';
-    renderInto('judgment-body', '判決書全文-' + n + '.md');
+async function loadFullJudgment() {
+  const body = document.getElementById('judgment-body');
+  body.innerHTML = '<div class="loading">載入中（約 30 萬字，請稍候）</div>';
+  try {
+    const parts = await Promise.all([1,2,3,4].map(n => fetchMd('判決書全文-' + n + '.md')));
+    body.innerHTML = marked.parse(parts.join('\n\n'));
+  } catch (e) {
+    body.innerHTML = '<p style="color:red">載入失敗：' + e.message + '</p>';
   }
 }
 
@@ -566,17 +562,14 @@ function goToResult(url, qEncoded) {
   closeSearch();
   const q = decodeURIComponent(qEncoded);
 
-  // Map url to tab/part
+  // Map url to tab
   if (url.includes('判決書全文-')) {
-    const n = parseInt(url.match(/(\d)/)[1]);
     switchTab('judgment');
-    // If this part hasn't been loaded yet, load it and highlight after render
-    if (!judgmentLoaded[n]) {
-      loadPart(n);
-      waitAndHighlight('judgment-body', q);
+    if (!judgmentLoaded) {
+      judgmentLoaded = true;
+      loadFullJudgment().then(() => highlightInBody('judgment-body', q));
     } else {
-      loadPart(n);
-      highlightInBody('judgment-body', q);
+      waitAndHighlight('judgment-body', q);
     }
   } else if (url.includes('分析')) {
     switchTab('analysis');
