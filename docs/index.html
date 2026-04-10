@@ -1,20 +1,367 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>113年度金訴字第51號 判決書</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --border: #e0e0e0;
+      --text: #1a1a1a;
+      --muted: #666;
+      --accent: #1a56a0;
+      --accent-hover: #0e3d78;
+      --tag-bg: #eef3fb;
+      --tag-text: #1a56a0;
+      --nav-bg: #1a2a3a;
+      --nav-text: #e8edf2;
+      --nav-active: #4a9eff;
+      --table-head: #f0f4fa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Serif TC", "思源宋體", "Georgia", "Times New Roman", serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.9;
+      font-size: 16px;
+    }
+    /* ── Top nav ── */
+    #topnav {
+      background: var(--nav-bg);
+      color: var(--nav-text);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      height: 52px;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    #topnav .site-title {
+      font-size: 13px;
+      color: #a0b8cc;
+      margin-right: 16px;
+      white-space: nowrap;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--nav-text);
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      border-radius: 4px;
+      transition: background .15s, color .15s;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { background: rgba(255,255,255,.1); }
+    .tab-btn.active { background: var(--accent); color: #fff; font-weight: 600; }
+
+    /* ── Layout ── */
+    #wrapper {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── Home panel ── */
+    #home-panel .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 40px 48px;
+      margin-bottom: 32px;
+    }
+    #home-panel .hero h1 {
+      font-size: 1.5rem;
+      color: var(--accent);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    #home-panel .hero .meta {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      cursor: pointer;
+      transition: box-shadow .15s, border-color .15s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); border-color: var(--accent); }
+    .card .card-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .card h3 { font-size: 15px; color: var(--accent); margin-bottom: 6px; }
+    .card p { font-size: 13px; color: var(--muted); }
+
+    /* ── Markdown content ── */
+    .md-panel { display: none; }
+    .md-panel.active { display: block; }
+
+    .md-body {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 48px 56px;
+    }
+    @media (max-width: 600px) {
+      .md-body { padding: 24px 20px; }
+      #home-panel .hero { padding: 24px 20px; }
+    }
+
+    /* Markdown typography */
+    .md-body h1 { font-size: 1.5rem; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 10px; margin: 32px 0 16px; }
+    .md-body h2 { font-size: 1.2rem; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 12px; margin: 28px 0 12px; }
+    .md-body h3 { font-size: 1.05rem; color: #2a4a6a; margin: 22px 0 10px; }
+    .md-body h4 { font-size: 1rem; color: #2a4a6a; margin: 18px 0 8px; }
+    .md-body h1:first-child { margin-top: 0; }
+    .md-body p { margin-bottom: 14px; }
+    .md-body ul, .md-body ol { padding-left: 24px; margin-bottom: 14px; }
+    .md-body li { margin-bottom: 6px; }
+    .md-body blockquote {
+      border-left: 4px solid var(--accent);
+      background: var(--tag-bg);
+      margin: 16px 0;
+      padding: 12px 20px;
+      border-radius: 0 6px 6px 0;
+      color: #2a2a2a;
+      font-style: italic;
+    }
+    .md-body code {
+      background: #f3f3f3;
+      border-radius: 3px;
+      padding: 2px 5px;
+      font-family: monospace;
+      font-size: 0.88em;
+    }
+    .md-body pre { background: #f3f3f3; border-radius: 6px; padding: 16px; overflow-x: auto; margin-bottom: 14px; }
+    .md-body pre code { background: none; padding: 0; }
+    .md-body hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+    .md-body table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0 24px;
+      font-size: 14px;
+    }
+    .md-body th {
+      background: var(--table-head);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+    }
+    .md-body td {
+      border: 1px solid var(--border);
+      padding: 9px 14px;
+      vertical-align: top;
+    }
+    .md-body tr:nth-child(even) td { background: #f9fafc; }
+    .md-body strong { color: #111; }
+    .md-body em { color: #555; }
+
+    /* ── Loading indicator ── */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .loading::after {
+      content: '';
+      display: block;
+      width: 32px; height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      margin: 16px auto 0;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Part nav ── */
+    .part-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .part-nav button {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 18px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--accent);
+      transition: background .15s, color .15s;
+    }
+    .part-nav button:hover, .part-nav button.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to My Website</h1>
-    </header>
-    <main>
-        <p>This is a sample website hosted on GitHub Pages.</p>
-    </main>
-    <footer>
-        <p>&copy; 2024 My Website</p>
-    </footer>
+
+<nav id="topnav">
+  <span class="site-title">113年度金訴字第51號</span>
+  <button class="tab-btn active" data-target="home">首頁</button>
+  <button class="tab-btn" data-target="judgment">判決書全文</button>
+  <button class="tab-btn" data-target="analysis">案情分析</button>
+  <button class="tab-btn" data-target="verdict">有罪理由</button>
+</nav>
+
+<div id="wrapper">
+
+  <!-- ══ HOME ══ -->
+  <div id="home" class="home-panel">
+    <div class="hero">
+      <h1>臺灣臺北地方法院刑事判決<br>113年度金訴字第51號</h1>
+      <p class="meta">宣判日期：中華民國115年3月26日 ／ 被告：柯文哲</p>
+    </div>
+    <div class="card-grid">
+      <div class="card" onclick="switchTab('judgment')">
+        <div class="card-label">全文</div>
+        <h3>判決書全文</h3>
+        <p>原始判決書全文，分四部分（共約 30 萬字）</p>
+      </div>
+      <div class="card" onclick="switchTab('analysis')">
+        <div class="card-label">分析</div>
+        <h3>京華城案完整分析</h3>
+        <p>關鍵時間軸、容積率數字、核心爭點與人物速查</p>
+      </div>
+      <div class="card" onclick="switchTab('verdict')">
+        <div class="card-label">判決</div>
+        <h3>柯文哲有罪理由分析</h3>
+        <p>收賄罪五大理由、圖利罪三大論點、辯解與法院回應</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ JUDGMENT ══ -->
+  <div id="judgment" class="md-panel">
+    <div class="part-nav">
+      <button class="active" onclick="loadPart(1)">第一部分</button>
+      <button onclick="loadPart(2)">第二部分</button>
+      <button onclick="loadPart(3)">第三部分</button>
+      <button onclick="loadPart(4)">第四部分</button>
+    </div>
+    <div id="judgment-body" class="md-body">
+      <div class="loading">載入中</div>
+    </div>
+  </div>
+
+  <!-- ══ ANALYSIS ══ -->
+  <div id="analysis" class="md-panel">
+    <div id="analysis-body" class="md-body">
+      <div class="loading">載入中</div>
+    </div>
+  </div>
+
+  <!-- ══ VERDICT ══ -->
+  <div id="verdict" class="md-panel">
+    <div id="verdict-body" class="md-body">
+      <div class="loading">載入中</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- marked.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+<script>
+  marked.setOptions({ gfm: true, breaks: true });
+
+  const cache = {};
+
+  async function fetchMd(url) {
+    if (cache[url]) return cache[url];
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const text = await r.text();
+    cache[url] = text;
+    return text;
+  }
+
+  async function renderInto(containerId, url) {
+    const el = document.getElementById(containerId);
+    try {
+      const md = await fetchMd(url);
+      el.innerHTML = marked.parse(md);
+    } catch (e) {
+      el.innerHTML = '<p style="color:red">載入失敗：' + e.message + '</p>';
+    }
+  }
+
+  // ── Tab switching ──
+  let currentTab = 'home';
+  let currentPart = 1;
+  let judgmentLoaded = {};
+  let analysisLoaded = false;
+  let verdictLoaded = false;
+
+  function switchTab(name) {
+    document.getElementById(currentTab).style.display = 'none';
+    currentTab = name;
+    document.getElementById(name).style.display = 'block';
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.target === name);
+    });
+
+    if (name === 'judgment' && !judgmentLoaded[currentPart]) {
+      loadPart(currentPart);
+    }
+    if (name === 'analysis' && !analysisLoaded) {
+      analysisLoaded = true;
+      renderInto('analysis-body', '京華城案關鍵時間軸與爭點分析.md');
+    }
+    if (name === 'verdict' && !verdictLoaded) {
+      verdictLoaded = true;
+      renderInto('verdict-body', '柯文哲有罪理由分析.md');
+    }
+  }
+
+  function loadPart(n) {
+    currentPart = n;
+    document.querySelectorAll('.part-nav button').forEach((b, i) => {
+      b.classList.toggle('active', i + 1 === n);
+    });
+    if (!judgmentLoaded[n]) {
+      judgmentLoaded[n] = true;
+      document.getElementById('judgment-body').innerHTML = '<div class="loading">載入中</div>';
+      renderInto('judgment-body', '判決書全文-' + n + '.md');
+    }
+  }
+
+  // Init: show home, hide rest
+  document.querySelectorAll('.md-panel, .home-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('home').style.display = 'block';
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.target));
+  });
+</script>
 </body>
 </html>
