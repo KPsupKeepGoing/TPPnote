@@ -2,59 +2,59 @@
 [TOC]
 
 # 逐字稿
-12/15 
-檢察官論告（揭露方案四違法獎勵與 1500 萬金流真相）_114/12/15 上午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/HyP5PFAsWx
+## 113 年度金訴字第 51 號言詞辯論
 
-檢察官論告（分析 USB 工作簿與沈慶京對價關係）_114/12/15 下午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/S15NUoTjZg
+### **12/15：檢方論告**
+* **上午：檢察官論告（揭露方案四違法獎勵與 1500 萬金流真相）**
+    * [https://hackmd.io/@kpsupkeepgoing2024/HyP5PFAsWx](https://hackmd.io/@kpsupkeepgoing2024/HyP5PFAsWx)
+* **下午：檢察官論告（分析 USB 工作簿與沈慶京對價關係）**
+    * [https://hackmd.io/@kpsupkeepgoing2024/S15NUoTjZg](https://hackmd.io/@kpsupkeepgoing2024/S15NUoTjZg)
 
-12/16
-彭振聲律師辯護（都市計畫行政程序與副市長職權辯駁）_114/12/16 法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/BkcNg2ao-g
+### **12/16：檢方論告**
+* **全天：檢察官收賄罪論告（針對柯、彭等被告職務行為對價之論述）**
+    * [https://hackmd.io/@kpsupkeepgoing2024/BkcNg2ao-g](https://hackmd.io/@kpsupkeepgoing2024/BkcNg2ao-g)
 
-12/17
-柯文哲律師辯護（駁斥明知違法，主張市長僅交辦研議）_114/12/17 上午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/rJnxwTpjWg
+### **12/17：柯、沈答辯**
+* **上午：被告柯文哲律師辯護（主張僅交辦研議，駁斥圖利犯意）**
+    * [https://hackmd.io/@kpsupkeepgoing2024/rJnxwTpjWg](https://hackmd.io/@kpsupkeepgoing2024/rJnxwTpjWg)
+* **下午：被告沈慶京親自答辯與律師辯護（主張 560% 容積率為保障權益）**
+    * [https://hackmd.io/@kpsupkeepgoing2024/BJWSlURs-g](https://hackmd.io/@kpsupkeepgoing2024/BJWSlURs-g)
 
-沈慶京親自答辯（主張 560% 容積率為法律保障權益）_114/12/17 下午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/BJWSlURs-g
+### **12/18：沈律師、張朱答辯**
+* **上午：被告沈慶京律師辯護（行政裁量權與專案合法性攻防）**
+    * [https://hackmd.io/@kpsupkeepgoing2024/ByBZ7LAi-l](https://hackmd.io/@kpsupkeepgoing2024/ByBZ7LAi-l)
+* **下午：被告張志澄、吳順民答辯（否認行賄，主張為政治獻金）**
+    * [https://hackmd.io/@kpsupkeepgoing2024/BkI5HLCo-x](https://hackmd.io/@kpsupkeepgoing2024/BkI5HLCo-x)
 
-12/18
-沈慶京律師辯護（都委會行政裁量權與專案合法性辯論）_114/12/18 上午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/ByBZ7LAi-l
+### **12/19：檢方補強與應組、彭組**
+* **上午：檢察官補充論告 ＆ 被告應曉薇律師（莊正、林慶苗）辯護**
+    * [https://hackmd.io/@kpsupkeepgoing2024/HkGNwLCiWl](https://hackmd.io/@kpsupkeepgoing2024/HkGNwLCiWl)
+* **下午：被告黃景茂及其辯護人答辯**
+   [https://hackmd.io/@kpsupkeepgoing2024/ryieZvAjZl](https://hackmd.io/@kpsupkeepgoing2024/ryieZvAjZl)
 
-威京財務主管張志澄答辯（否認行賄，主張 210 萬為政治獻金）_114/12/18 下午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/BkI5HLCo-x
+### **12/22：律師團與木可/獻金組**
+* **上午：檢察官論告（政治獻金與木可案）+李文宗答辯**
+    * [https://hackmd.io/@kpsupkeepgoing2024/H17EGP0jWe](https://hackmd.io/@kpsupkeepgoing2024/H17EGP0jWe)
+* **下午：被告李文宗、李文娟辯護人答辯**
+    * [https://hackmd.io/@kpsupkeepgoing2024/HyV9_PRs-e](https://hackmd.io/@kpsupkeepgoing2024/HyV9_PRs-e)
 
-12/19
-檢方與應曉薇、吳順民辯論（揭露基層公務員施壓與配合細節）_114/12/19 上午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/HkGNwLCiWl
+### **12/23：柯文哲最後答辯**
+* **全天：被告柯文哲最後答辯（強調專業制度與清白主張）**
+    * [https://hackmd.io/@kpsupkeepgoing2024/S10lNdRo-e](https://hackmd.io/@kpsupkeepgoing2024/S10lNdRo-e)
 
-陳亞麟、郭晃浩被告答辯（聚焦洗錢罪指控與個人涉案細節）_114/12/19 下午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/ryieZvAjZl
+### **12/24：科刑與終結**
+* **上午：被告應曉薇及其辯護人答辯**
+    * [https://hackmd.io/@kpsupkeepgoing2024/ryxAPOAiZg](https://hackmd.io/@kpsupkeepgoing2024/ryxAPOAiZg)
+* **下午：應曉薇、柯文哲、沈慶京等人辯論及補充論告**
+    * [https://hackmd.io/@kpsupkeepgoing2024/BydtCd0sZe](https://hackmd.io/@kpsupkeepgoing2024/BydtCd0sZe)
 
-12/22
-辯護律師團集體辯護（聚焦都審流程透明性與行政正當性）_114/12/22 上午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/H17EGP0jWe
+### **03/26：一審宣判**
+* **一審宣判（宣讀全案被告判決結果與事實理由）**
+    * [https://hackmd.io/@kpsupkeepgoing2024/rJ741FCjbg](https://hackmd.io/@kpsupkeepgoing2024/rJ741FCjbg)
 
-被告共同答辯（否認共同犯意，針對檢方收賄指控之回擊）_114/12/22 下午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/HyV9_PRs-e
+---
 
-12/23
-柯文哲最後答辯（強調尊重專業委員會制度與制度化決策）_114/12/23 法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/S10lNdRo-e
-
-12/24
-被告科刑辯論與最後陳述（檢方具體求刑與被告法益主張）_114/12/24 上午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/ryxAPOAiZg
-
-言詞辯論終結（全案審理結束，雙方法律適用最終攻防）_114/12/24 下午法庭錄影_113 年度金訴字第 51 號言詞辯論逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/BydtCd0sZe
-
-3/26
-一審宣判（宣讀柯文哲、沈慶京等被告判決結果與理由）_115/03/26 法庭錄影_113 年度金訴字第 51 號宣判逐字稿
-https://hackmd.io/@kpsupkeepgoing2024/rJ741FCjbg
+[柯文哲 京華城案 法庭直播 逐字稿](https://hackmd.io/@kpsupkeepgoing2024/ByPKw31hZx)
 
 
 # 摘要
@@ -1479,3 +1479,11 @@ http://googleusercontent.com/youtube_content/0
 *   **檢方觀點**：檢方將林欽榮作為「正義公務員」的榜樣對照組，用以證明「專業文官與前任副市長都認為不可行」，凸顯柯文哲後續核定 840% 容積率是「明知違法」。
 *   **辯方觀點（柯文哲陣營）**：辯方律師試圖淡化林欽榮證詞，主張林的 560% 時代背景與後來的 20% 容積獎勵法律基礎不同，認為其意見「過時」且不具法律強制力。此外，辯方也利用沈慶京指控「林欽榮矇騙柯文哲」的說法，試圖向法官論證柯文哲是被屬下或專業人士誤導，缺乏主觀的圖利犯意。
 *   **法官心證與判決結果**：在 3 月 26 日的一審判決中，**法官採信了林欽榮堅持依法辦理的證詞**，認定柯文哲在林欽榮卸任後無視前案專業評估，林欽榮的「反對立場」成為判定柯文哲具備「圖利主觀犯意」的重要環節。相對地，**法官並未採信沈慶京對林欽榮的索賄指控**，認為這更像是沈慶京為了減輕自身罪責或報復林欽榮當年立場而進行的人格抹黑。
+
+# 起訴書
+[柯文哲 京華城案 起訴書](https://hackmd.io/@kpsupkeepgoing2024/Skme5sl2-l)
+# 判決書全文
+[柯文哲京華城案判決書BOOK](/E4hpuQbjQ5qFvm-IbbnmVg)
+[柯文哲有罪理由分析](/GJY6TOPzTf2lTyUWlzbz-A)
+[京華城案關鍵時間軸與爭點分析](/1eOpSg8DQmKlHCdMo4ZM2A)
+
