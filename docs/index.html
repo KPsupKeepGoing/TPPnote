@@ -12,13 +12,11 @@
       --text: #1a1a1a;
       --muted: #666;
       --accent: #1a56a0;
-      --accent-hover: #0e3d78;
       --tag-bg: #eef3fb;
-      --tag-text: #1a56a0;
       --nav-bg: #1a2a3a;
       --nav-text: #e8edf2;
-      --nav-active: #4a9eff;
       --table-head: #f0f4fa;
+      --hl: #ffe066;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -28,40 +26,146 @@
       line-height: 1.9;
       font-size: 16px;
     }
+
     /* ── Top nav ── */
     #topnav {
       background: var(--nav-bg);
       color: var(--nav-text);
       display: flex;
       align-items: center;
-      padding: 0 24px;
+      padding: 0 16px;
       height: 52px;
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 4px;
       position: sticky;
       top: 0;
       z-index: 100;
       box-shadow: 0 2px 8px rgba(0,0,0,.3);
+      overflow-x: auto;
+      white-space: nowrap;
     }
     #topnav .site-title {
-      font-size: 13px;
+      font-size: 12px;
       color: #a0b8cc;
-      margin-right: 16px;
-      white-space: nowrap;
+      margin-right: 12px;
+      flex-shrink: 0;
     }
     .tab-btn {
       background: none;
       border: none;
       color: var(--nav-text);
-      padding: 6px 14px;
+      padding: 6px 12px;
       cursor: pointer;
       font-size: 13px;
       border-radius: 4px;
       transition: background .15s, color .15s;
-      white-space: nowrap;
+      flex-shrink: 0;
     }
     .tab-btn:hover { background: rgba(255,255,255,.1); }
     .tab-btn.active { background: var(--accent); color: #fff; font-weight: 600; }
+
+    /* Search button in nav */
+    #search-btn {
+      margin-left: auto;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: var(--nav-text);
+      padding: 5px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      flex-shrink: 0;
+      transition: background .15s;
+    }
+    #search-btn:hover { background: rgba(255,255,255,.2); }
+
+    /* ── Search overlay ── */
+    #search-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 200;
+      padding: 60px 16px 16px;
+      overflow-y: auto;
+    }
+    #search-overlay.open { display: block; }
+    #search-box {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,.4);
+    }
+    #search-input-row {
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+    #search-input-row svg { color: var(--muted); flex-shrink: 0; }
+    #search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 18px;
+      padding: 18px 0;
+      font-family: inherit;
+      color: var(--text);
+      background: transparent;
+    }
+    #search-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 22px;
+      color: var(--muted);
+      padding: 4px;
+      line-height: 1;
+    }
+    #search-status {
+      padding: 10px 20px;
+      font-size: 13px;
+      color: var(--muted);
+      min-height: 36px;
+      border-bottom: 1px solid var(--border);
+    }
+    #search-results {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    .result-item {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .1s;
+    }
+    .result-item:hover { background: var(--tag-bg); }
+    .result-source {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: .06em;
+      margin-bottom: 5px;
+    }
+    .result-snippet {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #333;
+    }
+    .result-snippet mark {
+      background: var(--hl);
+      color: #000;
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+    #search-no-results {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+    }
 
     /* ── Layout ── */
     #wrapper {
@@ -71,23 +175,20 @@
     }
 
     /* ── Home panel ── */
-    #home-panel .hero {
+    .hero {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 40px 48px;
       margin-bottom: 32px;
     }
-    #home-panel .hero h1 {
+    .hero h1 {
       font-size: 1.5rem;
       color: var(--accent);
       line-height: 1.5;
       margin-bottom: 12px;
     }
-    #home-panel .hero .meta {
-      color: var(--muted);
-      font-size: 14px;
-    }
+    .hero .meta { color: var(--muted); font-size: 14px; }
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -100,8 +201,6 @@
       padding: 24px;
       cursor: pointer;
       transition: box-shadow .15s, border-color .15s;
-      text-decoration: none;
-      color: inherit;
     }
     .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); border-color: var(--accent); }
     .card .card-label {
@@ -117,8 +216,6 @@
 
     /* ── Markdown content ── */
     .md-panel { display: none; }
-    .md-panel.active { display: block; }
-
     .md-body {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -126,13 +223,13 @@
       padding: 48px 56px;
     }
     @media (max-width: 600px) {
-      .md-body { padding: 24px 20px; }
-      #home-panel .hero { padding: 24px 20px; }
+      .md-body { padding: 24px 18px; }
+      .hero { padding: 24px 20px; }
+      #topnav .site-title { display: none; }
     }
 
-    /* Markdown typography */
-    .md-body h1 { font-size: 1.5rem; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 10px; margin: 32px 0 16px; }
-    .md-body h2 { font-size: 1.2rem; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 12px; margin: 28px 0 12px; }
+    .md-body h1 { font-size: 1.45rem; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 10px; margin: 32px 0 16px; }
+    .md-body h2 { font-size: 1.15rem; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 12px; margin: 28px 0 12px; }
     .md-body h3 { font-size: 1.05rem; color: #2a4a6a; margin: 22px 0 10px; }
     .md-body h4 { font-size: 1rem; color: #2a4a6a; margin: 18px 0 8px; }
     .md-body h1:first-child { margin-top: 0; }
@@ -148,45 +245,21 @@
       color: #2a2a2a;
       font-style: italic;
     }
-    .md-body code {
-      background: #f3f3f3;
-      border-radius: 3px;
-      padding: 2px 5px;
-      font-family: monospace;
-      font-size: 0.88em;
-    }
+    .md-body code { background: #f3f3f3; border-radius: 3px; padding: 2px 5px; font-family: monospace; font-size: .88em; }
     .md-body pre { background: #f3f3f3; border-radius: 6px; padding: 16px; overflow-x: auto; margin-bottom: 14px; }
     .md-body pre code { background: none; padding: 0; }
     .md-body hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
-    .md-body table {
-      border-collapse: collapse;
-      width: 100%;
-      margin: 16px 0 24px;
-      font-size: 14px;
-    }
-    .md-body th {
-      background: var(--table-head);
-      border: 1px solid var(--border);
-      padding: 10px 14px;
-      text-align: left;
-      font-weight: 700;
-    }
-    .md-body td {
-      border: 1px solid var(--border);
-      padding: 9px 14px;
-      vertical-align: top;
-    }
+    .md-body table { border-collapse: collapse; width: 100%; margin: 16px 0 24px; font-size: 14px; }
+    .md-body th { background: var(--table-head); border: 1px solid var(--border); padding: 10px 14px; text-align: left; font-weight: 700; }
+    .md-body td { border: 1px solid var(--border); padding: 9px 14px; vertical-align: top; }
     .md-body tr:nth-child(even) td { background: #f9fafc; }
     .md-body strong { color: #111; }
-    .md-body em { color: #555; }
 
-    /* ── Loading indicator ── */
-    .loading {
-      text-align: center;
-      padding: 60px;
-      color: var(--muted);
-      font-size: 15px;
-    }
+    /* search highlight inside rendered content */
+    .md-body mark { background: var(--hl); border-radius: 2px; padding: 0 2px; }
+
+    /* ── Loading ── */
+    .loading { text-align: center; padding: 60px; color: var(--muted); font-size: 15px; }
     .loading::after {
       content: '';
       display: block;
@@ -195,17 +268,12 @@
       border-top-color: var(--accent);
       border-radius: 50%;
       margin: 16px auto 0;
-      animation: spin 0.8s linear infinite;
+      animation: spin .8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ── Part nav ── */
-    .part-nav {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
+    .part-nav { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
     .part-nav button {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -217,9 +285,7 @@
       transition: background .15s, color .15s;
     }
     .part-nav button:hover, .part-nav button.active {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
+      background: var(--accent); color: #fff; border-color: var(--accent);
     }
   </style>
 </head>
@@ -231,12 +297,26 @@
   <button class="tab-btn" data-target="judgment">判決書全文</button>
   <button class="tab-btn" data-target="analysis">案情分析</button>
   <button class="tab-btn" data-target="verdict">有罪理由</button>
+  <button id="search-btn" onclick="openSearch()">🔍 搜尋</button>
 </nav>
+
+<!-- ══ SEARCH OVERLAY ══ -->
+<div id="search-overlay" onclick="onOverlayClick(event)">
+  <div id="search-box">
+    <div id="search-input-row">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="search-input" type="search" placeholder="搜尋判決書全文…" autocomplete="off" oninput="onSearchInput(this.value)">
+      <button id="search-close" onclick="closeSearch()">✕</button>
+    </div>
+    <div id="search-status">輸入關鍵字以搜尋所有文件</div>
+    <div id="search-results"></div>
+  </div>
+</div>
 
 <div id="wrapper">
 
   <!-- ══ HOME ══ -->
-  <div id="home" class="home-panel">
+  <div id="home">
     <div class="hero">
       <h1>臺灣臺北地方法院刑事判決<br>113年度金訴字第51號</h1>
       <p class="meta">宣判日期：中華民國115年3月26日 ／ 被告：柯文哲</p>
@@ -268,100 +348,300 @@
       <button onclick="loadPart(3)">第三部分</button>
       <button onclick="loadPart(4)">第四部分</button>
     </div>
-    <div id="judgment-body" class="md-body">
-      <div class="loading">載入中</div>
-    </div>
+    <div id="judgment-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ ANALYSIS ══ -->
   <div id="analysis" class="md-panel">
-    <div id="analysis-body" class="md-body">
-      <div class="loading">載入中</div>
-    </div>
+    <div id="analysis-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ VERDICT ══ -->
   <div id="verdict" class="md-panel">
-    <div id="verdict-body" class="md-body">
-      <div class="loading">載入中</div>
-    </div>
+    <div id="verdict-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
 </div>
 
-<!-- marked.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
 <script>
-  marked.setOptions({ gfm: true, breaks: true });
+marked.setOptions({ gfm: true, breaks: true });
 
-  const cache = {};
+// ── File registry ──
+const FILES = [
+  { key: 'j1', url: '判決書全文-1.md',       label: '判決書（一）' },
+  { key: 'j2', url: '判決書全文-2.md',       label: '判決書（二）' },
+  { key: 'j3', url: '判決書全文-3.md',       label: '判決書（三）' },
+  { key: 'j4', url: '判決書全文-4.md',       label: '判決書（四）' },
+  { key: 'an', url: '京華城案關鍵時間軸與爭點分析.md', label: '案情分析' },
+  { key: 'vd', url: '柯文哲有罪理由分析.md',  label: '有罪理由' },
+];
 
-  async function fetchMd(url) {
-    if (cache[url]) return cache[url];
-    const r = await fetch(url);
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const text = await r.text();
-    cache[url] = text;
-    return text;
+const cache = {};   // url → raw markdown text
+
+async function fetchMd(url) {
+  if (cache[url]) return cache[url];
+  const r = await fetch(url);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  const text = await r.text();
+  cache[url] = text;
+  return text;
+}
+
+async function renderInto(containerId, url) {
+  const el = document.getElementById(containerId);
+  try {
+    const md = await fetchMd(url);
+    el.innerHTML = marked.parse(md);
+  } catch (e) {
+    el.innerHTML = '<p style="color:red">載入失敗：' + e.message + '</p>';
   }
+}
 
-  async function renderInto(containerId, url) {
-    const el = document.getElementById(containerId);
+// ── Tab switching ──
+let currentTab = 'home';
+let currentPart = 1;
+const judgmentLoaded = {};
+let analysisLoaded = false;
+let verdictLoaded = false;
+
+function switchTab(name) {
+  document.getElementById(currentTab).style.display = 'none';
+  currentTab = name;
+  document.getElementById(name).style.display = 'block';
+  document.querySelectorAll('.tab-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.target === name));
+
+  if (name === 'judgment' && !judgmentLoaded[currentPart]) loadPart(currentPart);
+  if (name === 'analysis' && !analysisLoaded) {
+    analysisLoaded = true;
+    renderInto('analysis-body', '京華城案關鍵時間軸與爭點分析.md');
+  }
+  if (name === 'verdict' && !verdictLoaded) {
+    verdictLoaded = true;
+    renderInto('verdict-body', '柯文哲有罪理由分析.md');
+  }
+}
+
+function loadPart(n) {
+  currentPart = n;
+  document.querySelectorAll('.part-nav button').forEach((b, i) =>
+    b.classList.toggle('active', i + 1 === n));
+  if (!judgmentLoaded[n]) {
+    judgmentLoaded[n] = true;
+    document.getElementById('judgment-body').innerHTML = '<div class="loading">載入中</div>';
+    renderInto('judgment-body', '判決書全文-' + n + '.md');
+  }
+}
+
+// Init
+document.querySelectorAll('.md-panel').forEach(p => p.style.display = 'none');
+document.getElementById('home').style.display = 'block';
+document.querySelectorAll('.tab-btn').forEach(btn =>
+  btn.addEventListener('click', () => switchTab(btn.dataset.target)));
+
+// ══════════════════════════════════════════
+//  SEARCH
+// ══════════════════════════════════════════
+
+let searchIndex = null;   // Array of { label, url, paragraphs: string[] }
+let searchTimer = null;
+
+function openSearch() {
+  document.getElementById('search-overlay').classList.add('open');
+  document.getElementById('search-input').focus();
+  if (!searchIndex) buildIndex();
+}
+
+function closeSearch() {
+  document.getElementById('search-overlay').classList.remove('open');
+}
+
+function onOverlayClick(e) {
+  if (e.target === document.getElementById('search-overlay')) closeSearch();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSearch();
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+});
+
+// Build index: fetch all files in background, split into paragraphs
+async function buildIndex() {
+  document.getElementById('search-status').textContent = '正在載入全文索引…';
+  const index = [];
+  await Promise.all(FILES.map(async f => {
     try {
-      const md = await fetchMd(url);
-      el.innerHTML = marked.parse(md);
-    } catch (e) {
-      el.innerHTML = '<p style="color:red">載入失敗：' + e.message + '</p>';
-    }
+      const md = await fetchMd(f.url);
+      // Split into non-empty paragraphs (separated by blank lines)
+      const paragraphs = md.split(/\n{2,}/)
+        .map(p => p.trim())
+        .filter(p => p.length > 10);
+      index.push({ label: f.label, url: f.url, paragraphs });
+    } catch(_) {}
+  }));
+  searchIndex = index;
+  document.getElementById('search-status').textContent = '索引就緒，共 ' +
+    searchIndex.reduce((s, f) => s + f.paragraphs.length, 0) + ' 個段落';
+}
+
+function onSearchInput(q) {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => runSearch(q.trim()), 180);
+}
+
+function escapeRe(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function highlight(text, re) {
+  return text.replace(re, m => '<mark>' + m + '</mark>');
+}
+
+function snippet(para, re, maxLen = 200) {
+  // Find first match position, show surrounding context
+  const m = re.exec(para);
+  if (!m) return para.slice(0, maxLen);
+  const start = Math.max(0, m.index - 60);
+  const end = Math.min(para.length, m.index + maxLen - 60);
+  let s = para.slice(start, end);
+  if (start > 0) s = '…' + s;
+  if (end < para.length) s = s + '…';
+  return s;
+}
+
+function runSearch(q) {
+  const status = document.getElementById('search-status');
+  const results = document.getElementById('search-results');
+
+  if (!q) {
+    results.innerHTML = '';
+    status.textContent = searchIndex
+      ? '索引就緒，共 ' + searchIndex.reduce((s, f) => s + f.paragraphs.length, 0) + ' 個段落'
+      : '正在載入全文索引…';
+    return;
+  }
+  if (!searchIndex) {
+    status.textContent = '索引尚未就緒，請稍候…';
+    return;
   }
 
-  // ── Tab switching ──
-  let currentTab = 'home';
-  let currentPart = 1;
-  let judgmentLoaded = {};
-  let analysisLoaded = false;
-  let verdictLoaded = false;
+  const re = new RegExp(escapeRe(q), 'gi');
+  const hits = [];
 
-  function switchTab(name) {
-    document.getElementById(currentTab).style.display = 'none';
-    currentTab = name;
-    document.getElementById(name).style.display = 'block';
-    document.querySelectorAll('.tab-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.target === name);
-    });
-
-    if (name === 'judgment' && !judgmentLoaded[currentPart]) {
-      loadPart(currentPart);
+  for (const file of searchIndex) {
+    for (const para of file.paragraphs) {
+      if (re.test(para)) {
+        re.lastIndex = 0;
+        hits.push({ label: file.label, url: file.url, para });
+        if (hits.length >= 50) break;
+      }
+      re.lastIndex = 0;
     }
-    if (name === 'analysis' && !analysisLoaded) {
-      analysisLoaded = true;
-      renderInto('analysis-body', '京華城案關鍵時間軸與爭點分析.md');
-    }
-    if (name === 'verdict' && !verdictLoaded) {
-      verdictLoaded = true;
-      renderInto('verdict-body', '柯文哲有罪理由分析.md');
-    }
+    if (hits.length >= 50) break;
   }
 
-  function loadPart(n) {
-    currentPart = n;
-    document.querySelectorAll('.part-nav button').forEach((b, i) => {
-      b.classList.toggle('active', i + 1 === n);
-    });
+  status.textContent = hits.length === 0
+    ? '找不到結果'
+    : `找到 ${hits.length} 個段落${hits.length === 50 ? '（顯示前 50 筆）' : ''}`;
+
+  if (hits.length === 0) {
+    results.innerHTML = '<div id="search-no-results">「' + q + '」在所有文件中找不到相關段落。</div>';
+    return;
+  }
+
+  const re2 = new RegExp(escapeRe(q), 'gi');
+  results.innerHTML = hits.map(h => {
+    const snip = highlight(snippet(h.para, re2, 220), re2);
+    re2.lastIndex = 0;
+    return `<div class="result-item" onclick="goToResult('${h.url}', '${encodeURIComponent(q)}')">
+      <div class="result-source">${h.label}</div>
+      <div class="result-snippet">${snip}</div>
+    </div>`;
+  }).join('');
+}
+
+// Navigate to the file containing the result, then highlight
+function goToResult(url, qEncoded) {
+  closeSearch();
+  const q = decodeURIComponent(qEncoded);
+
+  // Map url to tab/part
+  if (url.includes('判決書全文-')) {
+    const n = parseInt(url.match(/(\d)/)[1]);
+    switchTab('judgment');
+    // If this part hasn't been loaded yet, load it and highlight after render
     if (!judgmentLoaded[n]) {
-      judgmentLoaded[n] = true;
-      document.getElementById('judgment-body').innerHTML = '<div class="loading">載入中</div>';
-      renderInto('judgment-body', '判決書全文-' + n + '.md');
+      loadPart(n);
+      waitAndHighlight('judgment-body', q);
+    } else {
+      loadPart(n);
+      highlightInBody('judgment-body', q);
+    }
+  } else if (url.includes('分析')) {
+    switchTab('analysis');
+    if (!analysisLoaded) {
+      analysisLoaded = true;
+      renderInto('analysis-body', url).then(() => highlightInBody('analysis-body', q));
+    } else {
+      highlightInBody('analysis-body', q);
+    }
+  } else {
+    switchTab('verdict');
+    if (!verdictLoaded) {
+      verdictLoaded = true;
+      renderInto('verdict-body', url).then(() => highlightInBody('verdict-body', q));
+    } else {
+      highlightInBody('verdict-body', q);
     }
   }
+}
 
-  // Init: show home, hide rest
-  document.querySelectorAll('.md-panel, .home-panel').forEach(p => p.style.display = 'none');
-  document.getElementById('home').style.display = 'block';
-
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.target));
+function waitAndHighlight(containerId, q) {
+  const el = document.getElementById(containerId);
+  const observer = new MutationObserver(() => {
+    if (!el.querySelector('.loading')) {
+      observer.disconnect();
+      setTimeout(() => highlightInBody(containerId, q), 100);
+    }
   });
+  observer.observe(el, { childList: true, subtree: true });
+}
+
+function highlightInBody(containerId, q) {
+  const body = document.getElementById(containerId);
+  // Remove previous highlights
+  body.querySelectorAll('mark').forEach(m => {
+    m.replaceWith(document.createTextNode(m.textContent));
+  });
+  if (!q) return;
+
+  // Walk text nodes and wrap matches
+  const re = new RegExp(escapeRe(q), 'gi');
+  const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+
+  let firstMark = null;
+  for (const node of nodes) {
+    if (!re.test(node.textContent)) { re.lastIndex = 0; continue; }
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0, m;
+    while ((m = re.exec(node.textContent)) !== null) {
+      frag.appendChild(document.createTextNode(node.textContent.slice(last, m.index)));
+      const mark = document.createElement('mark');
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      if (!firstMark) firstMark = mark;
+      last = m.index + m[0].length;
+    }
+    frag.appendChild(document.createTextNode(node.textContent.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  }
+
+  if (firstMark) firstMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
 </script>
 </body>
 </html>
