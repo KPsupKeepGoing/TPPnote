@@ -40,9 +40,18 @@
       top: 0;
       z-index: 100;
       box-shadow: 0 2px 8px rgba(0,0,0,.3);
-      overflow-x: auto;
-      white-space: nowrap;
     }
+    #nav-tabs-scroll {
+      flex: 1;
+      overflow-x: auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      /* hide scrollbar but keep functionality */
+      scrollbar-width: none;
+    }
+    #nav-tabs-scroll::-webkit-scrollbar { display: none; }
     #topnav .site-title {
       font-size: 12px;
       color: #a0b8cc;
@@ -63,20 +72,20 @@
     .tab-btn:hover { background: rgba(255,255,255,.1); }
     .tab-btn.active { background: var(--accent); color: #fff; font-weight: 600; }
 
-    /* Search button in nav */
+    /* Search button in nav — always visible at right */
     #search-btn {
-      margin-left: auto;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.2);
+      flex-shrink: 0;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
       color: var(--nav-text);
       padding: 5px 14px;
       border-radius: 20px;
       cursor: pointer;
       font-size: 13px;
-      flex-shrink: 0;
       transition: background .15s;
+      margin-left: 8px;
     }
-    #search-btn:hover { background: rgba(255,255,255,.2); }
+    #search-btn:hover { background: rgba(255,255,255,.28); }
 
     /* ── Search overlay ── */
     #search-overlay {
@@ -454,13 +463,19 @@
 
 <nav id="topnav">
   <span class="site-title">113年度金訴字第51號</span>
-  <button class="tab-btn active" data-target="home">首頁</button>
-  <button class="tab-btn" data-target="judgment">判決書全文</button>
-  <button class="tab-btn" data-target="analysis">案情分析</button>
-  <button class="tab-btn" data-target="verdict">有罪理由</button>
-  <button class="tab-btn" data-target="acquittal">證據不足</button>
-  <button class="tab-btn" data-target="defense">辯方爭點</button>
-  <button class="tab-btn" data-target="transcripts">法庭逐字稿</button>
+  <div id="nav-tabs-scroll">
+    <button class="tab-btn active" data-target="home">首頁</button>
+    <button class="tab-btn" data-target="judgment">判決書全文</button>
+    <button class="tab-btn" data-target="analysis">案情分析</button>
+    <button class="tab-btn" data-target="verdict">有罪理由</button>
+    <button class="tab-btn" data-target="acquittal">證據不足</button>
+    <button class="tab-btn" data-target="defense">辯方爭點</button>
+    <button class="tab-btn" data-target="transcripts">法庭逐字稿</button>
+    <button class="tab-btn" data-target="pressrelease">北院新聞稿</button>
+    <button class="tab-btn" data-target="indictment">起訴書</button>
+    <button class="tab-btn" data-target="diffpress">新聞稿差異</button>
+    <button class="tab-btn" data-target="diffindictment">起訴書差異</button>
+  </div>
   <button id="search-btn" onclick="openSearch()">🔍 搜尋</button>
 </nav>
 
@@ -516,6 +531,26 @@
         <h3>言詞辯論逐字稿</h3>
         <p>15場法庭辯論完整逐字稿，含檢察官論告、各被告辯護及宣判</p>
       </div>
+      <div class="card" onclick="switchTab('pressrelease')">
+        <div class="card-label">官方摘要</div>
+        <h3>北院新聞稿</h3>
+        <p>臺北地院官方宣判新聞稿，各被告刑度與事實摘要</p>
+      </div>
+      <div class="card" onclick="switchTab('indictment')">
+        <div class="card-label">起訴書</div>
+        <h3>起訴書全文（合併）</h3>
+        <p>圖利收賄案、政治獻金案起訴書及緩起訴處分書合併版</p>
+      </div>
+      <div class="card" onclick="switchTab('diffpress')">
+        <div class="card-label">比較分析</div>
+        <h3>新聞稿 vs 判決書差異</h3>
+        <p>新聞稿未呈現的重要差異：商三特爭議、1,500萬不成立、先例逐一反駁等</p>
+      </div>
+      <div class="card" onclick="switchTab('diffindictment')">
+        <div class="card-label">比較分析</div>
+        <h3>起訴書 vs 判決書差異</h3>
+        <p>1,500萬現金不成立、李文宗無罪、張志澄無罪等起訴與判決落差</p>
+      </div>
     </div>
   </div>
 
@@ -553,6 +588,26 @@
     <div id="transcript-viewer" class="md-body" style="display:none">
       <div class="loading">載入中</div>
     </div>
+  </div>
+
+  <!-- ══ PRESS RELEASE ══ -->
+  <div id="pressrelease" class="md-panel">
+    <div id="pressrelease-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
+  <!-- ══ INDICTMENT ══ -->
+  <div id="indictment" class="md-panel">
+    <div id="indictment-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
+  <!-- ══ DIFF: PRESS vs JUDGMENT ══ -->
+  <div id="diffpress" class="md-panel">
+    <div id="diffpress-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
+  <!-- ══ DIFF: INDICTMENT vs JUDGMENT ══ -->
+  <div id="diffindictment" class="md-panel">
+    <div id="diffindictment-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
 </div>
@@ -596,6 +651,10 @@ const FILES = [
   { key: 'vd', url: '柯文哲有罪理由分析.md',     label: '有罪理由' },
   { key: 'aq', url: '證據不足與無罪分析.md',     label: '證據不足' },
   { key: 'df', url: '法院不採信辯方爭點.md',     label: '辯方爭點' },
+  { key: 'pr', url: '北院新聞稿.md',             label: '北院新聞稿' },
+  { key: 'in', url: '起訴書合併.md',             label: '起訴書' },
+  { key: 'dp', url: '新聞稿與判決書差異.md',     label: '新聞稿vs判決書' },
+  { key: 'di', url: '起訴書與判決書差異.md',     label: '起訴書vs判決書' },
   ...TRANSCRIPTS.map(t => ({ key: 't' + t.n, url: t.url, label: t.title })),
 ];
 
@@ -628,6 +687,10 @@ let verdictLoaded = false;
 let acquittalLoaded = false;
 let defenseLoaded = false;
 let transcriptsInited = false;
+let pressreleaseLoaded = false;
+let indictmentLoaded = false;
+let diffpressLoaded = false;
+let diffindictmentLoaded = false;
 let currentTranscript = null;
 
 function switchTab(name) {
@@ -660,6 +723,22 @@ function switchTab(name) {
   if (name === 'transcripts' && !transcriptsInited) {
     transcriptsInited = true;
     buildTranscriptList();
+  }
+  if (name === 'pressrelease' && !pressreleaseLoaded) {
+    pressreleaseLoaded = true;
+    renderInto('pressrelease-body', '北院新聞稿.md');
+  }
+  if (name === 'indictment' && !indictmentLoaded) {
+    indictmentLoaded = true;
+    renderInto('indictment-body', '起訴書合併.md');
+  }
+  if (name === 'diffpress' && !diffpressLoaded) {
+    diffpressLoaded = true;
+    renderInto('diffpress-body', '新聞稿與判決書差異.md');
+  }
+  if (name === 'diffindictment' && !diffindictmentLoaded) {
+    diffindictmentLoaded = true;
+    renderInto('diffindictment-body', '起訴書與判決書差異.md');
   }
 }
 
@@ -863,6 +942,22 @@ function goToResult(url, qEncoded) {
     switchTab('defense');
     if (!defenseLoaded) { defenseLoaded = true; renderInto('defense-body', url).then(() => highlightInBody('defense-body', q)); }
     else highlightInBody('defense-body', q);
+  } else if (url.includes('北院新聞稿')) {
+    switchTab('pressrelease');
+    if (!pressreleaseLoaded) { pressreleaseLoaded = true; renderInto('pressrelease-body', url).then(() => highlightInBody('pressrelease-body', q)); }
+    else highlightInBody('pressrelease-body', q);
+  } else if (url.includes('起訴書合併')) {
+    switchTab('indictment');
+    if (!indictmentLoaded) { indictmentLoaded = true; renderInto('indictment-body', url).then(() => highlightInBody('indictment-body', q)); }
+    else highlightInBody('indictment-body', q);
+  } else if (url.includes('新聞稿與判決書')) {
+    switchTab('diffpress');
+    if (!diffpressLoaded) { diffpressLoaded = true; renderInto('diffpress-body', url).then(() => highlightInBody('diffpress-body', q)); }
+    else highlightInBody('diffpress-body', q);
+  } else if (url.includes('起訴書與判決書')) {
+    switchTab('diffindictment');
+    if (!diffindictmentLoaded) { diffindictmentLoaded = true; renderInto('diffindictment-body', url).then(() => highlightInBody('diffindictment-body', q)); }
+    else highlightInBody('diffindictment-body', q);
   } else if (url.includes('逐字稿')) {
     switchTab('transcripts');
     if (!transcriptsInited) { transcriptsInited = true; buildTranscriptList(); }
