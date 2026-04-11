@@ -480,7 +480,7 @@
     <button class="tab-btn" data-target="media">黨檢媒一體</button>
     <button class="tab-btn" data-target="mediafake">造謠存證</button>
     <button class="tab-btn" data-target="zoning">容積懶人包</button>
-    <button class="tab-btn" data-target="promotion">司法升官</button>
+    <button class="tab-btn" data-target="promotion">升官發財請走此道</button>
   </div>
   <button id="search-btn" onclick="openSearch()">🔍 搜尋</button>
 </nav>
@@ -579,8 +579,8 @@
       </div>
       <div class="card" onclick="switchTab('promotion')">
         <div class="card-label">司法人事</div>
-        <h3>柯案相關司法人員升遷紀錄</h3>
-        <p>偵辦與審判柯案後升官的檢察官與法官；法務部長、檢察總長與賴清德的人事布局</p>
+        <h3>升官發財請走此道</h3>
+        <p>偵辦柯案後升官的檢察官與法官；廖彥鈞爭議（補充理由書致彭夫人輕生、侯漢廷共諜案、賴清德合照）；法務部長與檢察總長的政治任命脈絡</p>
       </div>
     </div>
   </div>
@@ -714,7 +714,7 @@ const FILES = [
   { key: 'wb', url: '工作簿金流爭點.md',          label: '工作簿金流爭點' },
   { key: 'mf', url: '無良媒體造謠存證區.md',       label: '造謠存證' },
   { key: 'zo', url: '京華城容積爭議.md',            label: '容積懶人包' },
-  { key: 'pm', url: '升官.md',                      label: '司法升官' },
+  { key: 'pm', url: '升官發財請走此道.md',            label: '升官發財請走此道' },
   ...TRANSCRIPTS.map(t => ({ key: 't' + t.n, url: t.url, label: t.title })),
 ];
 
@@ -827,7 +827,7 @@ function switchTab(name, pushState = true) {
   }
   if (name === 'promotion' && !promotionLoaded) {
     promotionLoaded = true;
-    renderInto('promotion-body', '升官.md');
+    renderInto('promotion-body', '升官發財請走此道.md');
   }
 }
 
@@ -1073,7 +1073,7 @@ function goToResult(url, qEncoded) {
     switchTab('mediafake');
     if (!mediafakeLoaded) { mediafakeLoaded = true; renderInto('mediafake-body', url).then(() => highlightInBody('mediafake-body', q)); }
     else hl('mediafake-body');
-  } else if (url.includes('升官')) {
+  } else if (url.includes('升官發財') || url.includes('升官')) {
     switchTab('promotion');
     if (!promotionLoaded) { promotionLoaded = true; renderInto('promotion-body', url).then(() => highlightInBody('promotion-body', q)); }
     else hl('promotion-body');
