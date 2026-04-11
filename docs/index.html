@@ -296,6 +296,7 @@
     .md-body td { border: 1px solid var(--border); padding: 9px 14px; vertical-align: top; }
     .md-body tr:nth-child(even) td { background: #f9fafc; }
     .md-body strong { color: #111; }
+    .md-body img { max-width: 100%; height: auto; display: block; margin: 12px 0; border-radius: 4px; }
 
     /* search highlight inside rendered content */
     .md-body mark { background: var(--hl); border-radius: 2px; padding: 0 2px; }
@@ -477,6 +478,8 @@
     <button class="tab-btn" data-target="diffindictment">起訴書差異</button>
     <button class="tab-btn" data-target="workbook">工作簿金流</button>
     <button class="tab-btn" data-target="media">黨檢媒一體</button>
+    <button class="tab-btn" data-target="mediafake">造謠存證</button>
+    <button class="tab-btn" data-target="zoning">容積懶人包</button>
   </div>
   <button id="search-btn" onclick="openSearch()">🔍 搜尋</button>
 </nav>
@@ -563,6 +566,16 @@
         <h3>黨檢媒一體</h3>
         <p>鏡新聞、民視、三立、政客造謠逐一存證；金流數字從170萬飆到29億的謠言演化時間軸</p>
       </div>
+      <div class="card" onclick="switchTab('mediafake')">
+        <div class="card-label">圖片存證</div>
+        <h3>無良媒體造謠存證區</h3>
+        <p>ATM存款、下條子、假民調、小額捐款變賄款等假新聞截圖原始存證（65張）</p>
+      </div>
+      <div class="card" onclick="switchTab('zoning')">
+        <div class="card-label">容積爭議</div>
+        <h3>京華城容積懶人包</h3>
+        <p>容積率 392%→560%→672%→840% 完整脈絡；闢謠懶人包、相關影片與關鍵時間序</p>
+      </div>
     </div>
   </div>
 
@@ -632,6 +645,16 @@
     <div id="media-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
+  <!-- ══ MEDIAFAKE ══ -->
+  <div id="mediafake" class="md-panel">
+    <div id="mediafake-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
+  <!-- ══ ZONING ══ -->
+  <div id="zoning" class="md-panel">
+    <div id="zoning-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
 </div>
 
 <!-- ══ TOC ══ -->
@@ -678,6 +701,8 @@ const FILES = [
   { key: 'dp', url: '新聞稿與判決書差異.md',     label: '新聞稿vs判決書' },
   { key: 'di', url: '起訴書與判決書差異.md',     label: '起訴書vs判決書' },
   { key: 'wb', url: '工作簿金流爭點.md',          label: '工作簿金流爭點' },
+  { key: 'mf', url: '無良媒體造謠存證區.md',       label: '造謠存證' },
+  { key: 'zo', url: '京華城容積爭議.md',            label: '容積懶人包' },
   ...TRANSCRIPTS.map(t => ({ key: 't' + t.n, url: t.url, label: t.title })),
 ];
 
@@ -716,14 +741,20 @@ let diffpressLoaded = false;
 let diffindictmentLoaded = false;
 let workbookLoaded = false;
 let mediaLoaded = false;
+let mediafakeLoaded = false;
+let zoningLoaded = false;
 let currentTranscript = null;
 
-function switchTab(name) {
+function switchTab(name, pushState = true) {
   document.getElementById(currentTab).style.display = 'none';
   currentTab = name;
   document.getElementById(name).style.display = 'block';
   document.querySelectorAll('.tab-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.target === name));
+  if (pushState) {
+    const hash = name === 'home' ? '' : '#' + name;
+    if (window.location.hash !== hash) history.pushState(null, '', location.pathname + hash);
+  }
 
   if (name === 'judgment' && !judgmentLoaded) {
     judgmentLoaded = true;
@@ -772,6 +803,14 @@ function switchTab(name) {
   if (name === 'media' && !mediaLoaded) {
     mediaLoaded = true;
     renderInto('media-body', '黨檢媒一體.md');
+  }
+  if (name === 'mediafake' && !mediafakeLoaded) {
+    mediafakeLoaded = true;
+    renderInto('mediafake-body', '無良媒體造謠存證區.md');
+  }
+  if (name === 'zoning' && !zoningLoaded) {
+    zoningLoaded = true;
+    renderInto('zoning-body', '京華城容積爭議.md');
   }
 }
 
@@ -827,6 +866,16 @@ document.querySelectorAll('.md-panel').forEach(p => p.style.display = 'none');
 document.getElementById('home').style.display = 'block';
 document.querySelectorAll('.tab-btn').forEach(btn =>
   btn.addEventListener('click', () => switchTab(btn.dataset.target)));
+
+// Hash routing — load correct tab on page open / back-forward
+(function initHash() {
+  const hash = window.location.hash.replace('#', '');
+  if (hash && document.getElementById(hash)) switchTab(hash, false);
+})();
+window.addEventListener('popstate', () => {
+  const hash = window.location.hash.replace('#', '') || 'home';
+  if (document.getElementById(hash)) switchTab(hash, false);
+});
 
 // ══════════════════════════════════════════
 //  SEARCH
@@ -1003,6 +1052,14 @@ function goToResult(url, qEncoded) {
     switchTab('media');
     if (!mediaLoaded) { mediaLoaded = true; renderInto('media-body', url).then(() => highlightInBody('media-body', q)); }
     else hl('media-body');
+  } else if (url.includes('無良媒體')) {
+    switchTab('mediafake');
+    if (!mediafakeLoaded) { mediafakeLoaded = true; renderInto('mediafake-body', url).then(() => highlightInBody('mediafake-body', q)); }
+    else hl('mediafake-body');
+  } else if (url.includes('容積')) {
+    switchTab('zoning');
+    if (!zoningLoaded) { zoningLoaded = true; renderInto('zoning-body', url).then(() => highlightInBody('zoning-body', q)); }
+    else hl('zoning-body');
   } else if (url.includes('逐字稿')) {
     switchTab('transcripts');
     if (!transcriptsInited) { transcriptsInited = true; buildTranscriptList(); }
@@ -1068,7 +1125,10 @@ function buildToc() {
     currentTab === 'indictment' ? 'indictment-body' :
     currentTab === 'diffpress' ? 'diffpress-body' :
     currentTab === 'diffindictment' ? 'diffindictment-body' :
-    currentTab === 'workbook' ? 'workbook-body' : null;
+    currentTab === 'workbook' ? 'workbook-body' :
+    currentTab === 'media' ? 'media-body' :
+    currentTab === 'mediafake' ? 'mediafake-body' :
+    currentTab === 'zoning' ? 'zoning-body' : null;
 
   if (!panelId) { list.innerHTML = '<div style="padding:12px 16px;color:#888;font-size:13px">請先開啟文件</div>'; return; }
 
