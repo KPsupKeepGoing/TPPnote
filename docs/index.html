@@ -1039,68 +1039,68 @@ function goToResult(url, qEncoded) {
 
   // After switchTab flips display:none→block the browser needs a layout pass
   // before scrollIntoView works. Use this wrapper for already-loaded panels.
-  function hl(id) { requestAnimationFrame(() => setTimeout(() => highlightInBody(id, q), 0)); }
+  function hl(id) { requestAnimationFrame(() => setTimeout(() => highlightInBody(id, q), 150)); }
 
   // Map url to tab
   if (url.includes('判決書全文')) {
     switchTab('judgment');
     if (!judgmentLoaded) {
       judgmentLoaded = true;
-      loadFullJudgment().then(() => highlightInBody('judgment-body', q));
+      loadFullJudgment().then(() => hl('judgment-body'));
     } else {
       hl('judgment-body');
     }
   } else if (url.includes('分析')) {
     switchTab('analysis');
-    if (!analysisLoaded) { analysisLoaded = true; renderInto('analysis-body', url).then(() => highlightInBody('analysis-body', q)); }
+    if (!analysisLoaded) { analysisLoaded = true; renderInto('analysis-body', url).then(() => hl('analysis-body')); }
     else hl('analysis-body');
   } else if (url.includes('證據不足')) {
     switchTab('acquittal');
-    if (!acquittalLoaded) { acquittalLoaded = true; renderInto('acquittal-body', url).then(() => highlightInBody('acquittal-body', q)); }
+    if (!acquittalLoaded) { acquittalLoaded = true; renderInto('acquittal-body', url).then(() => hl('acquittal-body')); }
     else hl('acquittal-body');
   } else if (url.includes('辯方')) {
     switchTab('defense');
-    if (!defenseLoaded) { defenseLoaded = true; renderInto('defense-body', url).then(() => highlightInBody('defense-body', q)); }
+    if (!defenseLoaded) { defenseLoaded = true; renderInto('defense-body', url).then(() => hl('defense-body')); }
     else hl('defense-body');
   } else if (url.includes('北院新聞稿')) {
     switchTab('pressrelease');
-    if (!pressreleaseLoaded) { pressreleaseLoaded = true; renderInto('pressrelease-body', url).then(() => highlightInBody('pressrelease-body', q)); }
+    if (!pressreleaseLoaded) { pressreleaseLoaded = true; renderInto('pressrelease-body', url).then(() => hl('pressrelease-body')); }
     else hl('pressrelease-body');
   } else if (url.includes('起訴書合併')) {
     switchTab('indictment');
-    if (!indictmentLoaded) { indictmentLoaded = true; renderInto('indictment-body', url).then(() => highlightInBody('indictment-body', q)); }
+    if (!indictmentLoaded) { indictmentLoaded = true; renderInto('indictment-body', url).then(() => hl('indictment-body')); }
     else hl('indictment-body');
   } else if (url.includes('新聞稿與判決書')) {
     switchTab('diffpress');
-    if (!diffpressLoaded) { diffpressLoaded = true; renderInto('diffpress-body', url).then(() => highlightInBody('diffpress-body', q)); }
+    if (!diffpressLoaded) { diffpressLoaded = true; renderInto('diffpress-body', url).then(() => hl('diffpress-body')); }
     else hl('diffpress-body');
   } else if (url.includes('起訴書與判決書')) {
     switchTab('diffindictment');
-    if (!diffindictmentLoaded) { diffindictmentLoaded = true; renderInto('diffindictment-body', url).then(() => highlightInBody('diffindictment-body', q)); }
+    if (!diffindictmentLoaded) { diffindictmentLoaded = true; renderInto('diffindictment-body', url).then(() => hl('diffindictment-body')); }
     else hl('diffindictment-body');
   } else if (url.includes('工作簿金流')) {
     switchTab('workbook');
-    if (!workbookLoaded) { workbookLoaded = true; renderInto('workbook-body', url).then(() => highlightInBody('workbook-body', q)); }
+    if (!workbookLoaded) { workbookLoaded = true; renderInto('workbook-body', url).then(() => hl('workbook-body')); }
     else hl('workbook-body');
   } else if (url.includes('黨檢媒')) {
     switchTab('media');
-    if (!mediaLoaded) { mediaLoaded = true; renderInto('media-body', url).then(() => highlightInBody('media-body', q)); }
+    if (!mediaLoaded) { mediaLoaded = true; renderInto('media-body', url).then(() => hl('media-body')); }
     else hl('media-body');
   } else if (url.includes('無良媒體')) {
     switchTab('mediafake');
-    if (!mediafakeLoaded) { mediafakeLoaded = true; renderInto('mediafake-body', url).then(() => highlightInBody('mediafake-body', q)); }
+    if (!mediafakeLoaded) { mediafakeLoaded = true; renderInto('mediafake-body', url).then(() => hl('mediafake-body')); }
     else hl('mediafake-body');
   } else if (url.includes('司法評論')) {
     switchTab('commentary');
-    if (!commentaryLoaded) { commentaryLoaded = true; renderInto('commentary-body', url).then(() => highlightInBody('commentary-body', q)); }
+    if (!commentaryLoaded) { commentaryLoaded = true; renderInto('commentary-body', url).then(() => hl('commentary-body')); }
     else hl('commentary-body');
   } else if (url.includes('升官發財') || url.includes('升官')) {
     switchTab('promotion');
-    if (!promotionLoaded) { promotionLoaded = true; renderInto('promotion-body', url).then(() => highlightInBody('promotion-body', q)); }
+    if (!promotionLoaded) { promotionLoaded = true; renderInto('promotion-body', url).then(() => hl('promotion-body')); }
     else hl('promotion-body');
   } else if (url.includes('容積')) {
     switchTab('zoning');
-    if (!zoningLoaded) { zoningLoaded = true; renderInto('zoning-body', url).then(() => highlightInBody('zoning-body', q)); }
+    if (!zoningLoaded) { zoningLoaded = true; renderInto('zoning-body', url).then(() => hl('zoning-body')); }
     else hl('zoning-body');
   } else if (url.includes('逐字稿')) {
     switchTab('transcripts');
@@ -1110,13 +1110,13 @@ function goToResult(url, qEncoded) {
       const items = document.querySelectorAll('.transcript-item');
       items.forEach(item => {
         if (item.dataset.url === url) {
-          loadTranscript(url, item).then(() => highlightInBody('transcript-viewer', q));
+          loadTranscript(url, item).then(() => hl('transcript-viewer'));
         }
       });
     }, 100);
   } else {
     switchTab('verdict');
-    if (!verdictLoaded) { verdictLoaded = true; renderInto('verdict-body', url).then(() => highlightInBody('verdict-body', q)); }
+    if (!verdictLoaded) { verdictLoaded = true; renderInto('verdict-body', url).then(() => hl('verdict-body')); }
     else hl('verdict-body');
   }
 }
