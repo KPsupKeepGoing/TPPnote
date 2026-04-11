@@ -475,6 +475,7 @@
     <button class="tab-btn" data-target="indictment">起訴書</button>
     <button class="tab-btn" data-target="diffpress">新聞稿差異</button>
     <button class="tab-btn" data-target="diffindictment">起訴書差異</button>
+    <button class="tab-btn" data-target="workbook">工作簿金流</button>
   </div>
   <button id="search-btn" onclick="openSearch()">🔍 搜尋</button>
 </nav>
@@ -551,6 +552,11 @@
         <h3>起訴書 vs 判決書差異</h3>
         <p>1,500萬現金不成立、李文宗無罪、張志澄無罪等起訴與判決落差</p>
       </div>
+      <div class="card" onclick="switchTab('workbook')">
+        <div class="card-label">金流爭點</div>
+        <h3>工作簿（AE37 Excel）金流爭點</h3>
+        <p>工作簿17筆條目逐一比較：檢察官逐筆驗證說法 vs 辯方否認與取證質疑，含「小沈1500」核心爭點</p>
+      </div>
     </div>
   </div>
 
@@ -610,6 +616,11 @@
     <div id="diffindictment-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
+  <!-- ══ WORKBOOK ══ -->
+  <div id="workbook" class="md-panel">
+    <div id="workbook-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
 </div>
 
 <!-- ══ TOC ══ -->
@@ -655,6 +666,7 @@ const FILES = [
   { key: 'in', url: '起訴書合併.md',             label: '起訴書' },
   { key: 'dp', url: '新聞稿與判決書差異.md',     label: '新聞稿vs判決書' },
   { key: 'di', url: '起訴書與判決書差異.md',     label: '起訴書vs判決書' },
+  { key: 'wb', url: '工作簿金流爭點.md',          label: '工作簿金流爭點' },
   ...TRANSCRIPTS.map(t => ({ key: 't' + t.n, url: t.url, label: t.title })),
 ];
 
@@ -691,6 +703,7 @@ let pressreleaseLoaded = false;
 let indictmentLoaded = false;
 let diffpressLoaded = false;
 let diffindictmentLoaded = false;
+let workbookLoaded = false;
 let currentTranscript = null;
 
 function switchTab(name) {
@@ -739,6 +752,10 @@ function switchTab(name) {
   if (name === 'diffindictment' && !diffindictmentLoaded) {
     diffindictmentLoaded = true;
     renderInto('diffindictment-body', '起訴書與判決書差異.md');
+  }
+  if (name === 'workbook' && !workbookLoaded) {
+    workbookLoaded = true;
+    renderInto('workbook-body', '工作簿金流爭點.md');
   }
 }
 
@@ -958,6 +975,10 @@ function goToResult(url, qEncoded) {
     switchTab('diffindictment');
     if (!diffindictmentLoaded) { diffindictmentLoaded = true; renderInto('diffindictment-body', url).then(() => highlightInBody('diffindictment-body', q)); }
     else highlightInBody('diffindictment-body', q);
+  } else if (url.includes('工作簿金流')) {
+    switchTab('workbook');
+    if (!workbookLoaded) { workbookLoaded = true; renderInto('workbook-body', url).then(() => highlightInBody('workbook-body', q)); }
+    else highlightInBody('workbook-body', q);
   } else if (url.includes('逐字稿')) {
     switchTab('transcripts');
     if (!transcriptsInited) { transcriptsInited = true; buildTranscriptList(); }
@@ -1022,7 +1043,8 @@ function buildToc() {
     currentTab === 'pressrelease' ? 'pressrelease-body' :
     currentTab === 'indictment' ? 'indictment-body' :
     currentTab === 'diffpress' ? 'diffpress-body' :
-    currentTab === 'diffindictment' ? 'diffindictment-body' : null;
+    currentTab === 'diffindictment' ? 'diffindictment-body' :
+    currentTab === 'workbook' ? 'workbook-body' : null;
 
   if (!panelId) { list.innerHTML = '<div style="padding:12px 16px;color:#888;font-size:13px">請先開啟文件</div>'; return; }
 
