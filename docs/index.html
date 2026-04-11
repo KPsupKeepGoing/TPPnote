@@ -476,6 +476,7 @@
     <button class="tab-btn" data-target="diffpress">新聞稿差異</button>
     <button class="tab-btn" data-target="diffindictment">起訴書差異</button>
     <button class="tab-btn" data-target="workbook">工作簿金流</button>
+    <button class="tab-btn" data-target="media">黨檢媒一體</button>
   </div>
   <button id="search-btn" onclick="openSearch()">🔍 搜尋</button>
 </nav>
@@ -557,6 +558,11 @@
         <h3>工作簿（AE37 Excel）金流爭點</h3>
         <p>工作簿17筆條目逐一比較：檢察官逐筆驗證說法 vs 辯方否認與取證質疑，含「小沈1500」核心爭點</p>
       </div>
+      <div class="card" onclick="switchTab('media')">
+        <div class="card-label">媒體亂象</div>
+        <h3>黨檢媒一體</h3>
+        <p>鏡新聞、民視、三立、政客造謠逐一存證；金流數字從170萬飆到29億的謠言演化時間軸</p>
+      </div>
     </div>
   </div>
 
@@ -619,6 +625,11 @@
   <!-- ══ WORKBOOK ══ -->
   <div id="workbook" class="md-panel">
     <div id="workbook-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
+  <!-- ══ MEDIA ══ -->
+  <div id="media" class="md-panel">
+    <div id="media-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
 </div>
@@ -704,6 +715,7 @@ let indictmentLoaded = false;
 let diffpressLoaded = false;
 let diffindictmentLoaded = false;
 let workbookLoaded = false;
+let mediaLoaded = false;
 let currentTranscript = null;
 
 function switchTab(name) {
@@ -756,6 +768,10 @@ function switchTab(name) {
   if (name === 'workbook' && !workbookLoaded) {
     workbookLoaded = true;
     renderInto('workbook-body', '工作簿金流爭點.md');
+  }
+  if (name === 'media' && !mediaLoaded) {
+    mediaLoaded = true;
+    renderInto('media-body', '黨檢媒一體.md');
   }
 }
 
@@ -983,6 +999,10 @@ function goToResult(url, qEncoded) {
     switchTab('workbook');
     if (!workbookLoaded) { workbookLoaded = true; renderInto('workbook-body', url).then(() => highlightInBody('workbook-body', q)); }
     else hl('workbook-body');
+  } else if (url.includes('黨檢媒')) {
+    switchTab('media');
+    if (!mediaLoaded) { mediaLoaded = true; renderInto('media-body', url).then(() => highlightInBody('media-body', q)); }
+    else hl('media-body');
   } else if (url.includes('逐字稿')) {
     switchTab('transcripts');
     if (!transcriptsInited) { transcriptsInited = true; buildTranscriptList(); }
