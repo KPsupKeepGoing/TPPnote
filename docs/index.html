@@ -1018,7 +1018,11 @@ function buildToc() {
     currentTab === 'verdict' ? 'verdict-body' :
     currentTab === 'acquittal' ? 'acquittal-body' :
     currentTab === 'defense' ? 'defense-body' :
-    currentTab === 'transcripts' ? 'transcript-viewer' : null;
+    currentTab === 'transcripts' ? 'transcript-viewer' :
+    currentTab === 'pressrelease' ? 'pressrelease-body' :
+    currentTab === 'indictment' ? 'indictment-body' :
+    currentTab === 'diffpress' ? 'diffpress-body' :
+    currentTab === 'diffindictment' ? 'diffindictment-body' : null;
 
   if (!panelId) { list.innerHTML = '<div style="padding:12px 16px;color:#888;font-size:13px">請先開啟文件</div>'; return; }
 
