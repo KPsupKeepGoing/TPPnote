@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kpsupkeepgoing.github.io/TPPnote/sitemap.xml
