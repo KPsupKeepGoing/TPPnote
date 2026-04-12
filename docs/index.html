@@ -476,7 +476,7 @@
     <button class="tab-btn" data-target="indictment">起訴書</button>
     <button class="tab-btn" data-target="diffpress">新聞稿差異</button>
     <button class="tab-btn" data-target="diffindictment">起訴書差異</button>
-    <button class="tab-btn" data-target="workbook">工作簿金流</button>
+    <button class="tab-btn" data-target="workbook">ExcelPay</button>
     <button class="tab-btn" data-target="media">黨檢媒一體</button>
     <button class="tab-btn" data-target="mediafake">造謠存證</button>
     <button class="tab-btn" data-target="zoning">容積懶人包</button>
@@ -563,8 +563,8 @@
       </div>
       <div class="card" onclick="switchTab('workbook')">
         <div class="card-label">金流爭點</div>
-        <h3>工作簿（AE37 Excel）金流爭點</h3>
-        <p>工作簿17筆條目逐一比較：檢察官逐筆驗證說法 vs 辯方否認與取證質疑，含「小沈1500」核心爭點</p>
+        <h3>ExcelPay 金流爭點</h3>
+        <p>政治獻金非賄款，零元流入私人口袋；工作簿17筆條目逐一分析，含「小沈1500」核心爭點</p>
       </div>
       <div class="card" onclick="switchTab('media')">
         <div class="card-label">媒體亂象</div>
@@ -755,7 +755,7 @@ const FILES = [
   { key: 'in', url: '起訴書合併.md',             label: '起訴書' },
   { key: 'dp', url: '新聞稿與判決書差異.md',     label: '新聞稿vs判決書' },
   { key: 'di', url: '起訴書與判決書差異.md',     label: '起訴書vs判決書' },
-  { key: 'wb', url: '工作簿金流爭點.md',          label: '工作簿金流爭點' },
+  { key: 'wb', url: '工作簿金流爭點.md',          label: 'ExcelPay 金流爭點' },
   { key: 'mf', url: '無良媒體造謠存證區.md',       label: '造謠存證' },
   { key: 'zo', url: '京華城容積爭議.md',            label: '容積懶人包' },
   { key: 'pm', url: '升官發財請走此道.md',            label: '升官發財請走此道' },
@@ -1256,7 +1256,18 @@ function buildToc() {
   const panel = document.getElementById(panelId);
   const headings = panel.querySelectorAll('h1,h2,h3,h4');
 
-  if (!headings.length) { list.innerHTML = '<div style="padding:12px 16px;color:#888;font-size:13px">目錄載入中…</div>'; return; }
+  if (!headings.length) {
+    list.innerHTML = '<div style="padding:12px 16px;color:#888;font-size:13px">目錄載入中…</div>';
+    // If content is still loading, wait for it and rebuild TOC automatically
+    const obs = new MutationObserver(() => {
+      if (!panel.querySelector('.loading') && panel.querySelectorAll('h1,h2,h3,h4').length) {
+        obs.disconnect();
+        if (tocOpen) buildToc();
+      }
+    });
+    obs.observe(panel, { childList: true, subtree: true });
+    return;
+  }
 
   headings.forEach((h, i) => {
     // Assign id if missing
