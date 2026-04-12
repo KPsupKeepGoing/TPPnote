@@ -782,6 +782,17 @@ async function renderInto(containerId, url) {
   try {
     const md = await fetchMd(url);
     el.innerHTML = marked.parse(md);
+    // Intercept internal .md links — keep user inside the SPA
+    el.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (href && href.match(/\.md(#.*)?$/)) {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          const base = href.replace(/#.*$/, '');
+          goToResult(base, '');
+        });
+      }
+    });
   } catch (e) {
     el.innerHTML = '<p style="color:red">載入失敗：' + e.message + '</p>';
   }
@@ -1235,7 +1246,10 @@ function buildToc() {
     currentTab === 'mediafake' ? 'mediafake-body' :
     currentTab === 'zoning' ? 'zoning-body' :
     currentTab === 'promotion' ? 'promotion-body' :
-    currentTab === 'commentary' ? 'commentary-body' : null;
+    currentTab === 'commentary' ? 'commentary-body' :
+    currentTab === 'selfdefense' ? 'selfdefense-body' :
+    currentTab === 'arrested' ? 'arrested-body' :
+    currentTab === 'videos' ? 'videos-body' : null;
 
   if (!panelId) { list.innerHTML = '<div style="padding:12px 16px;color:#888;font-size:13px">請先開啟文件</div>'; return; }
 
