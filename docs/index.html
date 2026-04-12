@@ -482,6 +482,9 @@
     <button class="tab-btn" data-target="zoning">容積懶人包</button>
     <button class="tab-btn" data-target="promotion">升官發財請走此道</button>
     <button class="tab-btn" data-target="commentary">司法評論</button>
+    <button class="tab-btn" data-target="selfdefense">柯文哲自清</button>
+    <button class="tab-btn" data-target="arrested">製圖小草被羈押</button>
+    <button class="tab-btn" data-target="videos">澄清影片</button>
   </div>
   <button id="search-btn" onclick="openSearch()">🔍 搜尋</button>
 </nav>
@@ -588,6 +591,21 @@
         <h3>司法評論</h3>
         <p>檢媒共振污染審判、辯護權萎縮、法官檢察官共生文化等結構性問題的深度論述</p>
       </div>
+      <div class="card" onclick="switchTab('selfdefense')">
+        <div class="card-label">當事人自清</div>
+        <h3>柯文哲自清</h3>
+        <p>柯文哲準備庭聲明、不正訊問指控、法規依據辯護、林俊言威脅霸凌、朱亞虎供詞全憑臆測等庭訊紀錄整理</p>
+      </div>
+      <div class="card" onclick="switchTab('arrested')">
+        <div class="card-label">司法迫害</div>
+        <h3>製圖小草被羈押</h3>
+        <p>迷因台式民主粉專主因製圖被羈押四個月</p>
+      </div>
+      <div class="card" onclick="switchTab('videos')">
+        <div class="card-label">影片索引</div>
+        <h3>澄清影片</h3>
+        <p>與柯文哲案相關之澄清、分析、庭訊解說影片連結，共 85 支</p>
+      </div>
     </div>
   </div>
 
@@ -677,6 +695,21 @@
     <div id="commentary-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
+  <!-- ══ SELF-DEFENSE ══ -->
+  <div id="selfdefense" class="md-panel">
+    <div id="selfdefense-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
+  <!-- ══ ARRESTED ══ -->
+  <div id="arrested" class="md-panel">
+    <div id="arrested-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
+  <!-- ══ VIDEOS ══ -->
+  <div id="videos" class="md-panel">
+    <div id="videos-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
 </div>
 
 <!-- ══ TOC ══ -->
@@ -727,6 +760,9 @@ const FILES = [
   { key: 'zo', url: '京華城容積爭議.md',            label: '容積懶人包' },
   { key: 'pm', url: '升官發財請走此道.md',            label: '升官發財請走此道' },
   { key: 'cm', url: '司法評論.md',                    label: '司法評論' },
+  { key: 'sd', url: '柯文哲自清.md',                  label: '柯文哲自清' },
+  { key: 'ar', url: '製圖小草被羈押.md',              label: '製圖小草被羈押' },
+  { key: 'vd2', url: '澄清影片.md',                   label: '澄清影片' },
   ...TRANSCRIPTS.map(t => ({ key: 't' + t.n, url: t.url, label: t.title })),
 ];
 
@@ -769,6 +805,9 @@ let mediafakeLoaded = false;
 let zoningLoaded = false;
 let promotionLoaded = false;
 let commentaryLoaded = false;
+let selfdefenseLoaded = false;
+let arrestedLoaded = false;
+let videosLoaded = false;
 let currentTranscript = null;
 
 function switchTab(name, pushState = true) {
@@ -845,6 +884,18 @@ function switchTab(name, pushState = true) {
   if (name === 'commentary' && !commentaryLoaded) {
     commentaryLoaded = true;
     renderInto('commentary-body', '司法評論.md');
+  }
+  if (name === 'selfdefense' && !selfdefenseLoaded) {
+    selfdefenseLoaded = true;
+    renderInto('selfdefense-body', '柯文哲自清.md');
+  }
+  if (name === 'arrested' && !arrestedLoaded) {
+    arrestedLoaded = true;
+    renderInto('arrested-body', '製圖小草被羈押.md');
+  }
+  if (name === 'videos' && !videosLoaded) {
+    videosLoaded = true;
+    renderInto('videos-body', '澄清影片.md');
   }
 }
 
@@ -1094,6 +1145,18 @@ function goToResult(url, qEncoded) {
     switchTab('commentary');
     if (!commentaryLoaded) { commentaryLoaded = true; renderInto('commentary-body', url).then(() => hl('commentary-body')); }
     else hl('commentary-body');
+  } else if (url.includes('柯文哲自清')) {
+    switchTab('selfdefense');
+    if (!selfdefenseLoaded) { selfdefenseLoaded = true; renderInto('selfdefense-body', url).then(() => hl('selfdefense-body')); }
+    else hl('selfdefense-body');
+  } else if (url.includes('製圖小草')) {
+    switchTab('arrested');
+    if (!arrestedLoaded) { arrestedLoaded = true; renderInto('arrested-body', url).then(() => hl('arrested-body')); }
+    else hl('arrested-body');
+  } else if (url.includes('澄清影片')) {
+    switchTab('videos');
+    if (!videosLoaded) { videosLoaded = true; renderInto('videos-body', url).then(() => hl('videos-body')); }
+    else hl('videos-body');
   } else if (url.includes('升官發財') || url.includes('升官')) {
     switchTab('promotion');
     if (!promotionLoaded) { promotionLoaded = true; renderInto('promotion-body', url).then(() => hl('promotion-body')); }
