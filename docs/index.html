@@ -458,6 +458,57 @@
     .part-nav button:hover, .part-nav button.active {
       background: var(--accent); color: #fff; border-color: var(--accent);
     }
+
+    /* ── Panel header (簡介區) ── */
+    .panel-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 32px;
+      border-bottom: 2px solid var(--border);
+      background: var(--tag-bg);
+      margin-bottom: 4px;
+    }
+    .panel-thumb {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+    .panel-intro { flex: 1; min-width: 0; }
+    .panel-intro-label { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
+    .panel-intro-title { font-size: 17px; font-weight: 700; margin: 0 0 5px; }
+    .panel-intro-desc { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.5; }
+    @media (max-width: 600px) {
+      .panel-header { padding: 14px 16px; gap: 12px; }
+      .panel-thumb { width: 52px; height: 52px; }
+    }
+
+    /* ── Search history ── */
+    #search-history {
+      display: none;
+      padding: 8px 20px;
+      gap: 8px;
+      flex-wrap: nowrap;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+    #search-history-label { font-size: 11px; color: var(--muted); flex-shrink: 0; }
+    .hist-chip {
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .hist-chip:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
   </style>
 </head>
 <body>
@@ -483,6 +534,7 @@
     <button class="tab-btn" data-target="promotion">升官發財請走此道</button>
     <button class="tab-btn" data-target="commentary">司法評論</button>
     <button class="tab-btn" data-target="selfdefense">柯文哲自清</button>
+    <button class="tab-btn" data-target="hostile">敵性證人</button>
     <button class="tab-btn" data-target="arrested">製圖小草被羈押</button>
     <button class="tab-btn" data-target="videos">澄清影片</button>
   </div>
@@ -497,6 +549,7 @@
       <input id="search-input" type="search" placeholder="搜尋判決書全文…" autocomplete="off" oninput="onSearchInput(this.value)">
       <button id="search-close" onclick="closeSearch()">✕</button>
     </div>
+    <div id="search-history"><span id="search-history-label">最近搜尋：</span></div>
     <div id="search-status">輸入關鍵字以搜尋所有文件</div>
     <div id="search-results"></div>
   </div>
@@ -548,8 +601,8 @@
       </div>
       <div class="card" onclick="switchTab('indictment')">
         <div class="card-label">起訴書</div>
-        <h3>起訴書全文（合併）</h3>
-        <p>圖利收賄案、政治獻金案起訴書及緩起訴處分書合併版</p>
+        <h3>起訴書全文</h3>
+        <p>圖利收賄案、政治獻金案起訴書及緩起訴處分書</p>
       </div>
       <div class="card" onclick="switchTab('diffpress')">
         <div class="card-label">比較分析</div>
@@ -596,6 +649,11 @@
         <h3>柯文哲自清</h3>
         <p>柯文哲準備庭聲明、不正訊問指控、法規依據辯護、林俊言威脅霸凌、朱亞虎供詞全憑臆測等庭訊紀錄整理</p>
       </div>
+      <div class="card" onclick="switchTab('hostile')">
+        <div class="card-label">敵性證人</div>
+        <h3>敵性證人</h3>
+        <p>林欽榮作偽證、亞灣補法；林洲民時間軸說謊；蘇麗瓊個人恩怨主導糾正；苗博雅庭上多次翻車</p>
+      </div>
       <div class="card" onclick="switchTab('arrested')">
         <div class="card-label">司法迫害</div>
         <h3>製圖小草被羈押</h3>
@@ -611,31 +669,79 @@
 
   <!-- ══ JUDGMENT ══ -->
   <div id="judgment" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6326.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">判決書全文</div>
+        <h2 class="panel-intro-title">判決書全文</h2>
+        <p class="panel-intro-desc">完整刑事判決書（逾30萬字），包含認定事實、法律分析與量刑理由</p>
+      </div>
+    </div>
     <div id="judgment-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ ANALYSIS ══ -->
   <div id="analysis" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6337.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">案情分析</div>
+        <h2 class="panel-intro-title">案情分析與時間軸</h2>
+        <p class="panel-intro-desc">事件完整時間軸與爭點分析，從107年陳情至宣判結果</p>
+      </div>
+    </div>
     <div id="analysis-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ VERDICT ══ -->
   <div id="verdict" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6350.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">有罪理由</div>
+        <h2 class="panel-intro-title">法院有罪理由分析</h2>
+        <p class="panel-intro-desc">法院認定柯文哲圖利罪、收賄罪之事實認定與理由</p>
+      </div>
+    </div>
     <div id="verdict-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ ACQUITTAL ══ -->
   <div id="acquittal" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6362.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">無罪分析</div>
+        <h2 class="panel-intro-title">證據不足與無罪分析</h2>
+        <p class="panel-intro-desc">1,500萬現金不成立、李文宗無罪、張志澄無罪等判決分析</p>
+      </div>
+    </div>
     <div id="acquittal-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ DEFENSE ══ -->
   <div id="defense" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6374.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">辯方爭點</div>
+        <h2 class="panel-intro-title">法院不採信辯方爭點</h2>
+        <p class="panel-intro-desc">辯護律師提出的27項爭點整理，以及法院不採信的理由</p>
+      </div>
+    </div>
     <div id="defense-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ TRANSCRIPTS ══ -->
   <div id="transcripts" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6386.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">法庭直播</div>
+        <h2 class="panel-intro-title">言詞辯論逐字稿</h2>
+        <p class="panel-intro-desc">15場法庭辯論完整逐字稿，含檢察官論告、各被告辯護及宣判</p>
+      </div>
+    </div>
     <div id="transcript-list-wrap">
       <div id="transcript-list-title">選擇場次</div>
       <div class="transcript-list" id="transcript-list"></div>
@@ -647,66 +753,183 @@
 
   <!-- ══ PRESS RELEASE ══ -->
   <div id="pressrelease" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6398.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">官方摘要</div>
+        <h2 class="panel-intro-title">北院新聞稿</h2>
+        <p class="panel-intro-desc">臺北地院官方宣判新聞稿，各被告刑度與事實摘要</p>
+      </div>
+    </div>
     <div id="pressrelease-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ INDICTMENT ══ -->
   <div id="indictment" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6410.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">起訴書</div>
+        <h2 class="panel-intro-title">起訴書全文</h2>
+        <p class="panel-intro-desc">圖利收賄案、政治獻金案起訴書及緩起訴處分書</p>
+      </div>
+    </div>
     <div id="indictment-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ DIFF: PRESS vs JUDGMENT ══ -->
   <div id="diffpress" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6422.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">比較分析</div>
+        <h2 class="panel-intro-title">新聞稿 vs 判決書差異</h2>
+        <p class="panel-intro-desc">新聞稿特有、判決書全文查無對應之重點：沈慶京「面露滿意微笑」等爭議</p>
+      </div>
+    </div>
     <div id="diffpress-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ DIFF: INDICTMENT vs JUDGMENT ══ -->
   <div id="diffindictment" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6434.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">比較分析</div>
+        <h2 class="panel-intro-title">起訴書 vs 判決書差異</h2>
+        <p class="panel-intro-desc">1,500萬現金不成立、李文宗無罪、張志澄無罪等起訴與判決落差</p>
+      </div>
+    </div>
     <div id="diffindictment-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ WORKBOOK ══ -->
   <div id="workbook" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6446.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">金流爭點</div>
+        <h2 class="panel-intro-title">ExcelPay 金流爭點</h2>
+        <p class="panel-intro-desc">政治獻金非賄款，零元流入私人口袋；工作簿17筆條目逐一分析，含「小沈1500」核心爭點</p>
+      </div>
+    </div>
     <div id="workbook-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ MEDIA ══ -->
   <div id="media" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6458.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">媒體亂象</div>
+        <h2 class="panel-intro-title">黨檢媒一體</h2>
+        <p class="panel-intro-desc">鏡新聞、民視、三立、政客造謠逐一存證；金流數字從170萬飆到29億的謠言演化時間軸</p>
+      </div>
+    </div>
     <div id="media-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ MEDIAFAKE ══ -->
   <div id="mediafake" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6470.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">圖片存證</div>
+        <h2 class="panel-intro-title">無良媒體造謠存證區</h2>
+        <p class="panel-intro-desc">ATM存款、下條子、假民調、小額捐款變賄款等假新聞截圖原始存證（65張）</p>
+      </div>
+    </div>
     <div id="mediafake-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ ZONING ══ -->
   <div id="zoning" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6482.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">容積爭議</div>
+        <h2 class="panel-intro-title">京華城容積懶人包</h2>
+        <p class="panel-intro-desc">容積率 392%→560%→672%→840% 完整脈絡；闢謠懶人包、相關影片與關鍵時間序</p>
+      </div>
+    </div>
     <div id="zoning-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ PROMOTION ══ -->
   <div id="promotion" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6494.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">司法人事</div>
+        <h2 class="panel-intro-title">升官發財請走此道</h2>
+        <p class="panel-intro-desc">偵辦柯案後升官的檢察官與法官；廖彥鈞爭議；法務部長與檢察總長的政治任命脈絡</p>
+      </div>
+    </div>
     <div id="promotion-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ COMMENTARY ══ -->
   <div id="commentary" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6506.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">深度評論</div>
+        <h2 class="panel-intro-title">司法評論</h2>
+        <p class="panel-intro-desc">檢媒共振污染審判、辯護權萎縮、法官檢察官共生文化等結構性問題的深度論述</p>
+      </div>
+    </div>
     <div id="commentary-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ SELF-DEFENSE ══ -->
   <div id="selfdefense" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6518.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">當事人自清</div>
+        <h2 class="panel-intro-title">柯文哲自清</h2>
+        <p class="panel-intro-desc">柯文哲準備庭聲明、不正訊問指控、法規依據辯護、林俊言威脅霸凌、朱亞虎供詞全憑臆測等庭訊紀錄整理</p>
+      </div>
+    </div>
     <div id="selfdefense-body" class="md-body"><div class="loading">載入中</div></div>
+  </div>
+
+  <!-- ══ HOSTILE WITNESSES ══ -->
+  <div id="hostile" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6554.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">敵性證人</div>
+        <h2 class="panel-intro-title">敵性證人</h2>
+        <p class="panel-intro-desc">林欽榮作偽證、亞灣補法；林洲民時間軸說謊；蘇麗瓊個人恩怨主導糾正；苗博雅庭上多次翻車</p>
+      </div>
+    </div>
+    <div id="hostile-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ ARRESTED ══ -->
   <div id="arrested" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6530.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">司法迫害</div>
+        <h2 class="panel-intro-title">製圖小草被羈押</h2>
+        <p class="panel-intro-desc">迷因台式民主粉專主因製圖被羈押四個月；個資法界線、呂政燁法官「綠色法官」爭議</p>
+      </div>
+    </div>
     <div id="arrested-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
   <!-- ══ VIDEOS ══ -->
   <div id="videos" class="md-panel">
+    <div class="panel-header">
+      <img class="panel-thumb" src="media/IMG_6542.JPG" alt="">
+      <div class="panel-intro">
+        <div class="panel-intro-label">影片索引</div>
+        <h2 class="panel-intro-title">澄清影片</h2>
+        <p class="panel-intro-desc">與柯文哲案相關之澄清、分析、庭訊解說影片連結，共 87 支</p>
+      </div>
+    </div>
     <div id="videos-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
@@ -761,6 +984,7 @@ const FILES = [
   { key: 'pm', url: '升官發財請走此道.md',            label: '升官發財請走此道' },
   { key: 'cm', url: '司法評論.md',                    label: '司法評論' },
   { key: 'sd', url: '柯文哲自清.md',                  label: '柯文哲自清' },
+  { key: 'hw', url: '敵性證人.md',                   label: '敵性證人' },
   { key: 'ar', url: '製圖小草被羈押.md',              label: '製圖小草被羈押' },
   { key: 'vd2', url: '澄清影片.md',                   label: '澄清影片' },
   ...TRANSCRIPTS.map(t => ({ key: 't' + t.n, url: t.url, label: t.title })),
@@ -791,6 +1015,13 @@ async function renderInto(containerId, url) {
           const base = href.replace(/#.*$/, '');
           goToResult(base, '');
         });
+      } else if (href && href.startsWith('#')) {
+        // In-page anchor — scroll within panel instead of triggering hash routing
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          const target = el.querySelector(href) || document.getElementById(href.slice(1));
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
       }
     });
   } catch (e) {
@@ -817,6 +1048,7 @@ let zoningLoaded = false;
 let promotionLoaded = false;
 let commentaryLoaded = false;
 let selfdefenseLoaded = false;
+let hostileLoaded = false;
 let arrestedLoaded = false;
 let videosLoaded = false;
 let currentTranscript = null;
@@ -900,6 +1132,10 @@ function switchTab(name, pushState = true) {
     selfdefenseLoaded = true;
     renderInto('selfdefense-body', '柯文哲自清.md');
   }
+  if (name === 'hostile' && !hostileLoaded) {
+    hostileLoaded = true;
+    renderInto('hostile-body', '敵性證人.md');
+  }
   if (name === 'arrested' && !arrestedLoaded) {
     arrestedLoaded = true;
     renderInto('arrested-body', '製圖小草被羈押.md');
@@ -980,9 +1216,38 @@ window.addEventListener('popstate', () => {
 let searchIndex = null;   // Array of { label, url, paragraphs: string[] }
 let searchTimer = null;
 
+// ── Search history ──
+const HIST_KEY = 'tppnote_search_history';
+function saveHistory(q) {
+  if (!q || !q.trim()) return;
+  try {
+    let hist = loadHistory();
+    hist = [q, ...hist.filter(h => h !== q)].slice(0, 5);
+    localStorage.setItem(HIST_KEY, JSON.stringify(hist));
+  } catch(_) {}
+}
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(HIST_KEY) || '[]'); } catch { return []; }
+}
+function renderHistory() {
+  const el = document.getElementById('search-history');
+  const hist = loadHistory();
+  if (!hist.length) { el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  const label = '<span id="search-history-label">最近搜尋：</span>';
+  const chips = hist.map(h => `<span class="hist-chip" onclick="useHistory(this.textContent)">${h}</span>`).join('');
+  el.innerHTML = label + chips;
+}
+function useHistory(q) {
+  const inp = document.getElementById('search-input');
+  inp.value = q;
+  runSearch(q);
+}
+
 function openSearch() {
   document.getElementById('search-overlay').classList.add('open');
   document.getElementById('search-input').focus();
+  renderHistory();
   if (!searchIndex) buildIndex();
 }
 
@@ -1078,6 +1343,8 @@ function runSearch(q) {
     ? '找不到結果'
     : `找到 ${hits.length} 個段落${hits.length === 50 ? '（顯示前 50 筆）' : ''}`;
 
+  if (hits.length > 0) saveHistory(q);
+
   if (hits.length === 0) {
     results.innerHTML = '<div id="search-no-results">「' + q + '」在所有文件中找不到相關段落。</div>';
     return;
@@ -1160,6 +1427,10 @@ function goToResult(url, qEncoded) {
     switchTab('selfdefense');
     if (!selfdefenseLoaded) { selfdefenseLoaded = true; renderInto('selfdefense-body', url).then(() => hl('selfdefense-body')); }
     else hl('selfdefense-body');
+  } else if (url.includes('敵性證人')) {
+    switchTab('hostile');
+    if (!hostileLoaded) { hostileLoaded = true; renderInto('hostile-body', url).then(() => hl('hostile-body')); }
+    else hl('hostile-body');
   } else if (url.includes('製圖小草')) {
     switchTab('arrested');
     if (!arrestedLoaded) { arrestedLoaded = true; renderInto('arrested-body', url).then(() => hl('arrested-body')); }
@@ -1248,6 +1519,7 @@ function buildToc() {
     currentTab === 'promotion' ? 'promotion-body' :
     currentTab === 'commentary' ? 'commentary-body' :
     currentTab === 'selfdefense' ? 'selfdefense-body' :
+    currentTab === 'hostile' ? 'hostile-body' :
     currentTab === 'arrested' ? 'arrested-body' :
     currentTab === 'videos' ? 'videos-body' : null;
 
