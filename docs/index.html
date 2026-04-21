@@ -13,11 +13,15 @@
   <meta property="og:url" content="https://kpsupkeepgoing.github.io/TPPnote/">
   <meta property="og:title" content="柯文哲京華城案判決書全文與辯護資料">
   <meta property="og:description" content="判決書全文30萬字、起訴書、法庭逐字稿15場、ExcelPay金流爭點、28項辯方爭點、敵性證人（林欽榮偽證）、黨檢媒一體造謠存證。">
+  <meta property="og:image" content="https://kpsupkeepgoing.github.io/TPPnote/media/IMG_6326.JPG">
+  <meta property="og:image:width" content="1080">
+  <meta property="og:image:height" content="1080">
   <meta property="og:locale" content="zh_TW">
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="柯文哲京華城案判決書全文與辯護資料">
   <meta name="twitter:description" content="判決書全文30萬字、起訴書、法庭逐字稿15場、ExcelPay金流爭點、28項辯方爭點、敵性證人（林欽榮偽證）、黨檢媒一體造謠存證。">
+  <meta name="twitter:image" content="https://kpsupkeepgoing.github.io/TPPnote/media/IMG_6326.JPG">
   <link rel="sitemap" type="application/xml" href="sitemap.xml">
   <style>
     :root {
@@ -1084,6 +1088,49 @@ const FILES = [
   ...TRANSCRIPTS.map(t => ({ key: 't' + t.n, url: t.url, label: t.title })),
 ];
 
+// ── Per-tab meta (title / description / image) ──
+const BASE = 'https://kpsupkeepgoing.github.io/TPPnote/';
+const SITE = '柯文哲京華城案判決書全文與辯護資料';
+const TAB_META = {
+  home:          { title: SITE, desc: '判決書全文30萬字、起訴書、法庭逐字稿15場、ExcelPay金流爭點、28項辯方爭點、敵性證人、黨檢媒一體造謠存證。', img: 'media/IMG_6326.JPG' },
+  judgment:      { title: '判決書全文｜' + SITE, desc: '完整刑事判決書（逾30萬字），包含認定事實、法律分析與量刑理由。', img: 'media/IMG_6326.JPG' },
+  analysis:      { title: '案情分析與時間軸｜' + SITE, desc: '事件完整時間軸與爭點分析，從107年陳情至宣判結果。', img: 'media/IMG_6337.JPG' },
+  verdict:       { title: '柯文哲有罪理由分析｜' + SITE, desc: '法院認定柯文哲圖利罪、收賄罪之事實認定與理由。', img: 'media/IMG_6350.JPG' },
+  acquittal:     { title: '證據不足與無罪分析｜' + SITE, desc: '1,500萬現金不成立、李文宗無罪、張志澄無罪等判決分析。', img: 'media/IMG_6362.JPG' },
+  defense:       { title: '法院不採信辯方爭點｜' + SITE, desc: '辯護律師提出的27項爭點整理，以及法院不採信的理由。', img: 'media/IMG_6374.JPG' },
+  transcripts:   { title: '言詞辯論逐字稿｜' + SITE, desc: '15場法庭辯論完整逐字稿，含檢察官論告、各被告辯護及宣判。', img: 'media/IMG_6386.JPG' },
+  pressrelease:  { title: '北院新聞稿｜' + SITE, desc: '臺北地院官方宣判新聞稿，各被告刑度與事實摘要。', img: 'media/IMG_6398.JPG' },
+  indictment:    { title: '起訴書全文｜' + SITE, desc: '圖利收賄案、政治獻金案起訴書及緩起訴處分書。', img: 'media/IMG_6410.JPG' },
+  diffpress:     { title: '新聞稿 vs 判決書差異｜' + SITE, desc: '新聞稿未呈現的重要差異：商三特爭議、1,500萬不成立等。', img: 'media/IMG_6422.JPG' },
+  diffindictment:{ title: '起訴書 vs 判決書差異｜' + SITE, desc: '1,500萬現金不成立、李文宗無罪、張志澄無罪等起訴與判決落差。', img: 'media/IMG_6434.JPG' },
+  workbook:      { title: 'ExcelPay 金流爭點｜' + SITE, desc: '政治獻金非賄款，零元流入私人口袋；工作簿17筆條目逐一分析，含「小沈1500」核心爭點。', img: 'media/IMG_6446.JPG' },
+  media:         { title: '黨檢媒一體｜' + SITE, desc: '鏡新聞、民視、三立、政客造謠逐一存證；金流數字從170萬飆到29億的謠言演化時間軸。', img: 'media/IMG_6458.JPG' },
+  mediafake:     { title: '無良媒體造謠存證區｜' + SITE, desc: 'ATM存款、下條子、假民調、小額捐款變賄款等假新聞截圖原始存證（65張）。', img: 'media/IMG_6470.JPG' },
+  zoning:        { title: '京華城容積懶人包｜' + SITE, desc: '容積率392%→560%→672%→840%完整脈絡；闢謠懶人包、關鍵時間序。', img: 'media/IMG_6482.JPG' },
+  promotion:     { title: '升官發財請走此道｜' + SITE, desc: '偵辦柯案後升官的檢察官與法官；法務部長與檢察總長的政治任命脈絡。', img: 'media/IMG_6494.JPG' },
+  commentary:    { title: '司法評論｜' + SITE, desc: '檢媒共振污染審判、辯護權萎縮、法官檢察官共生文化等結構性問題的深度論述。', img: 'media/IMG_6506.JPG' },
+  selfdefense:   { title: '柯文哲自清｜' + SITE, desc: '柯文哲準備庭聲明、不正訊問指控、林俊言威脅霸凌、朱亞虎供詞全憑臆測等庭訊紀錄整理。', img: 'media/IMG_6518.JPG' },
+  hostile:       { title: '敵性證人｜' + SITE, desc: '林欽榮作偽證、亞灣補法；林洲民時間軸說謊；蘇麗瓊個人恩怨主導糾正；苗博雅庭上多次翻車。', img: 'media/IMG_6554.JPG' },
+  arrested:      { title: '製圖小草被羈押｜' + SITE, desc: '迷因台式民主粉專主因製圖被羈押四個月；個資法界線、呂政燁法官「綠色法官」爭議。', img: 'media/IMG_6530.JPG' },
+  videos:        { title: '澄清影片｜' + SITE, desc: '與柯文哲案相關之澄清、分析、庭訊解說影片連結，共87支。', img: 'media/IMG_6542.JPG' },
+};
+
+function updateMeta(tab) {
+  const m = TAB_META[tab] || TAB_META.home;
+  const url = BASE + (tab === 'home' ? '' : tab + '.html');
+  const imgAbs = BASE + m.img;
+  document.title = m.title;
+  document.querySelector('meta[property="og:title"]').content = m.title;
+  document.querySelector('meta[property="og:description"]').content = m.desc;
+  document.querySelector('meta[property="og:image"]').content = imgAbs;
+  document.querySelector('meta[property="og:url"]').content = url;
+  document.querySelector('meta[name="twitter:title"]').content = m.title;
+  document.querySelector('meta[name="twitter:description"]').content = m.desc;
+  document.querySelector('meta[name="twitter:image"]').content = imgAbs;
+  const canon = document.querySelector('link[rel="canonical"]');
+  if (canon) canon.href = url;
+}
+
 const cache = {};   // url → raw markdown text
 
 async function fetchMd(url) {
@@ -1153,6 +1200,7 @@ function switchTab(name, pushState = true) {
   document.getElementById(name).style.display = 'block';
   document.querySelectorAll('.tab-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.target === name));
+  updateMeta(name);
   if (pushState) {
     const hash = name === 'home' ? '' : '#' + name;
     if (window.location.hash !== hash) history.pushState(null, '', location.pathname + hash);
