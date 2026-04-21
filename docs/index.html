@@ -1039,8 +1039,7 @@ marked.setOptions({ gfm: true, breaks: true });
 marked.use({
   renderer: {
     heading(token) {
-      const rawText = token.raw.replace(/^#+\s*/, '').trim();
-      const id = rawText.replace(/[^\w\u4e00-\u9fff]/g, '');
+      const id = (token.text || '').replace(/<[^>]*>/g, '').replace(/[^\w\u4e00-\u9fff]/g, '');
       return `<h${token.depth} id="${id}">${token.text}</h${token.depth}>\n`;
     }
   }
