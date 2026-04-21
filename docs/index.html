@@ -1200,7 +1200,7 @@ function switchTab(name, pushState = true) {
   document.getElementById(name).style.display = 'block';
   document.querySelectorAll('.tab-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.target === name));
-  updateMeta(name);
+  try { updateMeta(name); } catch(_) {}
   if (pushState) {
     const hash = name === 'home' ? '' : '#' + name;
     if (window.location.hash !== hash) history.pushState(null, '', location.pathname + hash);
@@ -1521,14 +1521,18 @@ function goToResult(url, qEncoded) {
     } else {
       hl('judgment-body');
     }
+  } else if (url.includes('有罪理由分析')) {
+    switchTab('verdict');
+    if (!verdictLoaded) { verdictLoaded = true; renderInto('verdict-body', url).then(() => hl('verdict-body')); }
+    else hl('verdict-body');
+  } else if (url.includes('證據不足') || url.includes('無罪分析')) {
+    switchTab('acquittal');
+    if (!acquittalLoaded) { acquittalLoaded = true; renderInto('acquittal-body', url).then(() => hl('acquittal-body')); }
+    else hl('acquittal-body');
   } else if (url.includes('分析')) {
     switchTab('analysis');
     if (!analysisLoaded) { analysisLoaded = true; renderInto('analysis-body', url).then(() => hl('analysis-body')); }
     else hl('analysis-body');
-  } else if (url.includes('證據不足')) {
-    switchTab('acquittal');
-    if (!acquittalLoaded) { acquittalLoaded = true; renderInto('acquittal-body', url).then(() => hl('acquittal-body')); }
-    else hl('acquittal-body');
   } else if (url.includes('辯方')) {
     switchTab('defense');
     if (!defenseLoaded) { defenseLoaded = true; renderInto('defense-body', url).then(() => hl('defense-body')); }
