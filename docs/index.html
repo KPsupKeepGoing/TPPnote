@@ -1038,9 +1038,9 @@ marked.setOptions({ gfm: true, breaks: true });
 // Generate heading IDs so in-page anchor links (#一法規依據...) work
 marked.use({
   renderer: {
-    heading(token) {
-      const id = (token.text || '').replace(/<[^>]*>/g, '').replace(/[^\w\u4e00-\u9fff]/g, '');
-      return `<h${token.depth} id="${id}">${token.text}</h${token.depth}>\n`;
+    heading(text, level, raw) {
+      const id = (raw || text).replace(/<[^>]*>/g, '').replace(/[^\w\u4e00-\u9fff]/g, '');
+      return `<h${level} id="${id}">${text}</h${level}>\n`;
     }
   }
 });
