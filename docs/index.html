@@ -491,6 +491,61 @@
       border-radius: 8px;
       flex-shrink: 0;
       border: 1px solid var(--border);
+      cursor: zoom-in;
+      transition: box-shadow .15s, transform .15s;
+    }
+    .panel-thumb:hover { box-shadow: 0 4px 16px rgba(0,0,0,.25); transform: scale(1.05); }
+
+    /* ── Lightbox ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.88);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox-img {
+      max-width: 92vw;
+      max-height: 92vh;
+      border-radius: 6px;
+      box-shadow: 0 8px 48px rgba(0,0,0,.6);
+      transform-origin: center center;
+      transition: transform .2s;
+      cursor: default;
+      user-select: none;
+    }
+    #lightbox-close {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      background: rgba(255,255,255,.15);
+      border: none;
+      color: #fff;
+      font-size: 26px;
+      line-height: 1;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s;
+    }
+    #lightbox-close:hover { background: rgba(255,255,255,.3); }
+    #lightbox-hint {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+      pointer-events: none;
+      font-family: -apple-system, sans-serif;
     }
     .panel-intro { flex: 1; min-width: 0; }
     .panel-intro-label { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
@@ -955,6 +1010,13 @@
     <div id="videos-body" class="md-body"><div class="loading">載入中</div></div>
   </div>
 
+</div>
+
+<!-- ══ LIGHTBOX ══ -->
+<div id="lightbox" onclick="closeLightbox(event)">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" draggable="false">
+  <div id="lightbox-hint">滾輪縮放 · 點擊背景關閉</div>
 </div>
 
 <!-- ══ TOC ══ -->
@@ -1624,6 +1686,44 @@ function highlightInBody(containerId, q) {
 
   if (firstMark) firstMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
+
+// ══════════════════════════════════════════
+//  LIGHTBOX
+// ══════════════════════════════════════════
+let lbScale = 1;
+
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  img.src = src;
+  lbScale = 1;
+  img.style.transform = 'scale(1)';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(e) {
+  if (e && e.target === document.getElementById('lightbox-img')) return;
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Scroll-to-zoom on the lightbox image
+document.getElementById('lightbox').addEventListener('wheel', e => {
+  e.preventDefault();
+  lbScale = Math.min(8, Math.max(0.5, lbScale - e.deltaY * 0.001));
+  document.getElementById('lightbox-img').style.transform = `scale(${lbScale})`;
+}, { passive: false });
+
+// ESC to close
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// Wire up all panel thumbnails
+document.querySelectorAll('.panel-thumb').forEach(img => {
+  img.addEventListener('click', () => openLightbox(img.src));
+});
 </script>
 </body>
 </html>
