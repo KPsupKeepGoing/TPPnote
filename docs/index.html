@@ -969,6 +969,16 @@
 <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
 <script>
 marked.setOptions({ gfm: true, breaks: true });
+// Generate heading IDs so in-page anchor links (#一法規依據...) work
+marked.use({
+  renderer: {
+    heading(token) {
+      const rawText = token.raw.replace(/^#+\s*/, '').trim();
+      const id = rawText.replace(/[^\w\u4e00-\u9fff]/g, '');
+      return `<h${token.depth} id="${id}">${token.text}</h${token.depth}>\n`;
+    }
+  }
+});
 
 // ── Transcript registry ──
 const TRANSCRIPTS = [
